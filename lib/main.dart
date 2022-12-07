@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
-import 'package:term_project/Calendar.dart';
+// import 'AppDrawer.dart';
+// import 'package:term_project/Calendar.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'; 
+import 'package:term_project/FirstPage.dart';
+// import 'package:term_project/LoginForm.dart';
 
 void main() {
   runApp(App());
@@ -20,10 +22,6 @@ class App extends StatelessWidget {
       ],
       title: 'Scheduler App',
       theme: ThemeData(primarySwatch: Colors.grey),
-      routes: {
-        "/home" : (context) => HomePage(),
-        // '/storage' : (context) => MontylyView()
-      },
       home: HomePage(),
     );
   }
@@ -36,10 +34,18 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      drawer: AppDrawer(),
-      body: Calendar()
+    // return Scaffold(
+    //   appBar: AppBar(),
+    //   drawer: AppDrawer(),
+    //   body: Calendar()
+    // );
+    return MaterialApp (
+      theme: ThemeData.light(),
+      home: Scaffold(
+        body: Center(
+          child: FirstPage(),
+        ),
+      ),
     );
   }
 }
