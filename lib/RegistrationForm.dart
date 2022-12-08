@@ -12,6 +12,13 @@ class _RegistrationForm extends State<RegistrationForm> {
   final checkPasswordController = TextEditingController();
 
   @override
+  void dispose() {
+    emailController_r.dispose();
+    passwordController_r.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;

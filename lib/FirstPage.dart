@@ -16,7 +16,6 @@ class FirstPage extends StatelessWidget {
     double ffem = fem * 0.97;
 
     return Container(
-      // Ssc (8:2)
       padding: EdgeInsets.fromLTRB(40 * fem, 220 * fem, 40 * fem, 250 * fem),
       width: double.infinity,
       decoration: BoxDecoration (
@@ -27,7 +26,6 @@ class FirstPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
-              // 2L2 (8:5)
               child:  
                 Container(
                   margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 45.5 * fem),

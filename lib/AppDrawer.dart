@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:term_project/LoginForm.dart';
 
 class AppDrawer extends StatelessWidget {
+  final String id;
+
+  AppDrawer (@required this.id, {Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -15,19 +20,19 @@ class AppDrawer extends StatelessWidget {
                 backgroundImage: AssetImage('assets/profile.png'),
                 backgroundColor: Colors.white,
               ),
-            otherAccountsPictures: <Widget>[
-              // 다른 계정 이미지[] set
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                backgroundImage: AssetImage('assets/profile2.png'),
-              ),
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                backgroundImage: AssetImage('assets/profile2.png'),
-              )
-            ],
-            accountName: Text('김지안'),
-            accountEmail: Text('j0012a@naver.com'),
+            // otherAccountsPictures: <Widget>[
+            //   // 다른 계정 이미지[] set
+            //   CircleAvatar(
+            //     backgroundColor: Colors.white,
+            //     backgroundImage: AssetImage('assets/profile2.png'),
+            //   ),
+            //   CircleAvatar(
+            //     backgroundColor: Colors.white,
+            //     backgroundImage: AssetImage('assets/profile2.png'),
+            //   )
+            // ],
+            accountName: Text(''),
+            accountEmail: Text('$id'),
             onDetailsPressed: () {
               print('arrow is clicked');
             },

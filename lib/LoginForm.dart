@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:term_project/Calendar.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -83,11 +84,14 @@ class _LoginForm extends State<LoginForm> {
                 height: 40 * fem,
                 child: OutlinedButton(
                   onPressed: () {
+                    String id = emailController_l.text;
+                    String password = passwordController_l.text;
+
                     // login
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Calendar(id, password)),
+                    );
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Color(0xff000000),
