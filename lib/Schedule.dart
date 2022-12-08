@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class Schedule {
   final String title;
-  final DateTime? startTime;
+  DateTime? startTime = null;
   DateTime? endTime = null;
   String? sharingUser = null;
   DateTime? notificationTime = null;
