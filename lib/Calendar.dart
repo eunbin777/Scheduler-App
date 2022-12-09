@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:term_project/AddEvent.dart';
 import 'package:term_project/AppDrawer.dart';
 import 'package:term_project/Schedule.dart';
 import 'package:term_project/Todo.dart';
@@ -26,6 +27,7 @@ class _Calendar extends State<Calendar> {
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
+    DateTime.now().weekday,
   );
 
   DateTime focusedDay = DateTime.now();
@@ -123,42 +125,55 @@ class _Calendar extends State<Calendar> {
         ]
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("일정 등록"),
-            content: TextFormField(controller: _eventController,),
-            actions: [
-              TextButton(
-                child: Text("확인"),
-                onPressed: () {
-                  if(_eventController.text.isEmpty) {
+        // onPressed: () => showDialog(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     title: Text("일정 등록"),
+        //     content: TextFormField(controller: _eventController,),
+        //     actions: [
+        //       TextButton(
+        //         child: Text("확인"),
+        //         onPressed: () {
+        //           if(_eventController.text.isEmpty) {
                     
-                  }
-                  else {
-                    if(EventList[selectedDay] != null) {
-                      EventList[selectedDay]?.add(Schedule(title: _eventController.text));
-                      // if(EventList[selectedDay])
-                    }
-                    else {
-                      EventList[selectedDay] = [Schedule(title: _eventController.text)];
-                    }
-                  }
-                  Navigator.pop(context);
-                  _eventController.clear();
-                  setState(() {
+        //           }
+        //           else {
+        //             if(EventList[selectedDay] != null) {
+        //               EventList[selectedDay]?.add(Schedule(title: _eventController.text));
+        //               // if(EventList[selectedDay])
+        //             }
+        //             else {
+        //               EventList[selectedDay] = [Schedule(title: _eventController.text)];
+        //             }
+        //           }
+        //           Navigator.pop(context);
+        //           _eventController.clear();
+        //           setState(() {
                     
-                  });
-                  return;
-                },
-              ),
-              TextButton(
-                child: Text("취소"),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          )
-        ),
+        //           });
+        //           return;
+        //         },
+        //       ),
+        //       TextButton(
+        //         child: Text("취소"),
+        //         onPressed: () => Navigator.pop(context),
+        //       ),
+        //     ],
+        //   )
+        // ),
+
+
+
+        
+        onPressed: () async {
+          final Schedule result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddEvent(selectedDay)
+            )
+          );
+          print(result);
+        },
         label: Text("Add"),
         icon: Icon(Icons.add),
       ),
