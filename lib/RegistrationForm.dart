@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:term_project/LoginForm.dart';
 
 class RegistrationForm extends StatefulWidget {
   @override
@@ -7,6 +9,7 @@ class RegistrationForm extends StatefulWidget {
 }
 
 class _RegistrationForm extends State<RegistrationForm> {
+  final _authentication = FirebaseAuth.instance;
   final emailController_r = TextEditingController();  // TextField 값 접근: emailController.text
   final passwordController_r = TextEditingController();
   final checkPasswordController = TextEditingController();
@@ -106,12 +109,31 @@ class _RegistrationForm extends State<RegistrationForm> {
                 width: double.infinity,
                 height: 40 * fem,
                 child: OutlinedButton(
-                  onPressed: () {
+                  onPressed: () async{
+                    print("Button pressed");
+                    try {
+                      String email = emailController_r.text;
+                      print("email: $email");
+                      String password = passwordController_r.text;
+                      final newUser = await _authentication.createUserWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                      newUser.user?.updateDisplayName(email);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        print('The password provided is too weak.');
+                      } else if (e.code == 'email-already-in-use') {
+                        print('The account already exists for that email.');
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                     // login
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginForm()),
+                    );
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Color(0xff000000),
