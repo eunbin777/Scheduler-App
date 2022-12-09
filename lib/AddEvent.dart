@@ -3,33 +3,54 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:term_project/AddEvent.dart';
 import 'package:term_project/AppDrawer.dart';
 import 'package:term_project/Calendar.dart';
+import 'package:term_project/Schedule.dart';
 import 'package:intl/intl.dart';
 
 
 class AddEvent extends StatefulWidget {
-  final DateTime selected;
+  // final Schedule schedule;
+  final DateTime selectedDay;
 
-  AddEvent(@required this.selected, {Key? key}) : super(key : key);
+  AddEvent(@required this.selectedDay, {Key? key}) : super(key : key);
+  // AddEvent({Key: key, this.schedule}) : super(key : key);
 
   _AddEvent createState() => _AddEvent();
 }
 
 class _AddEvent extends State<AddEvent> {
-  String? sHour, sMin, eHour, eMin, startTime, endTime, alarm, aHour, aMin;
+  String? sHour, sMin, eHour, eMin, alarm, aHour, aMin;
+  String startTime = "00 : 00";
+  String endTime = "00 : 00";
+
+  final titleController = TextEditingController();  // title
+  final sharedUserController = TextEditingController();  // userEmail
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    sharedUserController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final titleController = TextEditingController();  // title
-    final sharedUserController = TextEditingController();  // userEmail
+    // DateTime selected = widget.schedule.selectedDay;
+    String title = titleController.text;
+    String sharingUser = sharedUserController.text;
 
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
 
-    String weekday = DateFormat('E', 'ko').format(widget.selected);  // weekday
-    String today = DateFormat('yyyy년 MM월 dd일 ').format(widget.selected);  // today
+    String weekday = DateFormat('E', 'ko').format(widget.selectedDay);  // weekday
+    String today = DateFormat('yyyy년 MM월 dd일 ').format(widget.selectedDay);  // today
 
     TimeOfDay currentTime = TimeOfDay.now();
+
+    // Schedule schedule = new Schedule(titleController.text,  startTime, endTime, sharedUserController.text, alarm);
+    // print('schedule: ${schedule.title}');
+
+    // Schedule schedule = new Schedule.add(titleController.text, selected, startTime, endTime, sharedUserController.text, alarm);
 
     return Scaffold(
       resizeToAvoidBottomInset : false,
@@ -311,6 +332,10 @@ class _AddEvent extends State<AddEvent> {
             ),
           ],
         )
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => Navigator.pop(context, Schedule(title, startTime, endTime, sharingUser, alarm)),
+        label: Text("+"),
       ),
     );
   }

@@ -5,6 +5,8 @@ import 'package:term_project/AppDrawer.dart';
 import 'package:term_project/Schedule.dart';
 import 'package:term_project/Todo.dart';
 import 'package:term_project/Event.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class Calendar extends StatefulWidget {
   final String id;
@@ -16,6 +18,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _Calendar extends State<Calendar> {  
+  // Schedule schedule = new Schedule("", "", "", "", "");
   // Map<DateTime, List<Schedule>> ScheduleList;
   // Map<DateTime, List<Todo>> TodoList;
   // Event event;
@@ -166,16 +169,15 @@ class _Calendar extends State<Calendar> {
 
         
         onPressed: () async {
-          final Schedule result = await Navigator.push(
+          final schedule = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => AddEvent(selectedDay)
             )
           );
-          print(result);
+          print('schedule: ${schedule.title}');
         },
-        label: Text("Add"),
-        icon: Icon(Icons.add),
+        label: Text("+"),
       ),
     );
   }

@@ -113,13 +113,12 @@ class _RegistrationForm extends State<RegistrationForm> {
                     print("Button pressed");
                     try {
                       String email = emailController_r.text;
-                      print("email: $email");
                       String password = passwordController_r.text;
                       final newUser = await _authentication.createUserWithEmailAndPassword(
                         email: email,
                         password: password,
                       );
-                      newUser.user?.updateDisplayName(email);
+                      // newUser.user?.updateDisplayName(email);
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'weak-password') {
                         print('The password provided is too weak.');

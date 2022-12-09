@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:term_project/Calendar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 
 class LoginForm extends StatefulWidget {
   @override
@@ -12,6 +14,13 @@ class _LoginForm extends State<LoginForm> {
   final _authentication = FirebaseAuth.instance;
   final emailController_l = TextEditingController();
   final passwordController_l = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController_l.dispose();
+    passwordController_l.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,20 +103,21 @@ class _LoginForm extends State<LoginForm> {
                           email: email, password: password);
                       if (newUser.user != null) {
                         // ignore: use_build_context_synchronously
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Calendar(email, password)));
-                      }
-                    } on FirebaseAuthException catch (e) {
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context) => Calendar(email, password)
+                          )
+                        );
+                      } 
+                    }
+                    on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                         print('No user found for that email.');
-                      } else if (e.code == 'wrong-password') {
+                      }
+                      else if (e.code == 'wrong-password') {
                         print('Wrong password provided for that user.');
                       }
                     }
-                    // // login
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => Calendar(id, password)),
-                    // );
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Color(0xff000000),

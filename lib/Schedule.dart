@@ -15,12 +15,13 @@ import 'package:flutter/foundation.dart';
 
 class Schedule {
   String title;
-  DateTime startTime;
-  DateTime endTime;
+  // DateTime selectedDay;
+  String startTime;
+  String endTime;
   String? sharingUser;
-  DateTime? notificationTime;
+  String? notificationTime;
 
-  // Schedule(this.title);
+  // Schedule(this.title, this.selectedDay);
   Schedule(this.title, this.startTime, this.endTime, this.sharingUser, this.notificationTime);
   // Schedule.addUser(this.title, this.startTime, this.endTime, this.sharingUser);
   // Schedule.addAlarm(this.title, this.startTime, this.endTime, this.notificationTime);
