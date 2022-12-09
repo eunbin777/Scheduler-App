@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:term_project/Calendar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginForm extends State<LoginForm> {
+  final _authentication = FirebaseAuth.instance;
   final emailController_l = TextEditingController();
   final passwordController_l = TextEditingController();
 
@@ -83,15 +85,29 @@ class _LoginForm extends State<LoginForm> {
                 width: 280 * fem,
                 height: 40 * fem,
                 child: OutlinedButton(
-                  onPressed: () {
-                    String id = emailController_l.text;
+                  onPressed: () async{
+                    String email = emailController_l.text;
                     String password = passwordController_l.text;
-
-                    // login
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Calendar(id, password)),
-                    );
+                    try {
+                      final newUser = await _authentication
+                          .signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (newUser.user != null) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Calendar(email, password)));
+                      }
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('No user found for that email.');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password provided for that user.');
+                      }
+                    }
+                    // // login
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => Calendar(id, password)),
+                    // );
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Color(0xff000000),
