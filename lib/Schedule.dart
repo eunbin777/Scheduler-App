@@ -21,8 +21,9 @@ class Schedule {
   String? sharingUser;
   String? notificationTime;
 
-  // Schedule(this.title, this.selectedDay);
-  Schedule(this.title, this.startTime, this.endTime, this.sharingUser, this.notificationTime);
+  // Schedule(this.title);
+  // Schedule(this.title, this.startTime, this.endTime);
   // Schedule.addUser(this.title, this.startTime, this.endTime, this.sharingUser);
   // Schedule.addAlarm(this.title, this.startTime, this.endTime, this.notificationTime);
+  Schedule(this.title, this.startTime, this.endTime, this.sharingUser, this.notificationTime);
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:term_project/AddEvent.dart';
 import 'package:term_project/AppDrawer.dart';
@@ -31,7 +33,7 @@ class _Calendar extends State<Calendar> {
     DateTime.now().month,
     DateTime.now().day,
     DateTime.now().weekday,
-  );
+  ); 
 
   DateTime focusedDay = DateTime.now();
 
@@ -72,18 +74,18 @@ class _Calendar extends State<Calendar> {
   //   return TodoList[day] ?? [];
   // }
 
-
-  // Map<DateTime, List<Event>> events = {
-  //   DateTime.utc(2022,12,13) : [ Event('title'), Event('title2') ],
-  //   DateTime.utc(2022,12,14) : [ Event('title3') ],
-  // };
-
   // List<Event> _getEventsForDay(DateTime day) {
   //   return events[day] ?? [];
   // }
 
   @override
   Widget build(BuildContext context) {
+    double baseWidth = 375;
+    double fem = MediaQuery.of(context).size.width / baseWidth;
+    double ffem = fem * 0.97;
+
+    String weekday = DateFormat('E', 'ko').format(selectedDay);
+
     return Scaffold(
       appBar: AppBar(),
       drawer: AppDrawer(widget.id),
@@ -121,8 +123,70 @@ class _Calendar extends State<Calendar> {
               });
             },
           ),
+          Container(
+            margin: EdgeInsets.fromLTRB(0 * fem, 15 * fem, 0 * fem, 12 * fem),
+            width: 320 * fem,
+            height: 22 * fem,
+            // decoration: BoxDecoration (
+            //           color: Color(0xffd9d9d9),
+            //           borderRadius: BorderRadius.circular(10 * fem),
+            //         ),
+            child: Text(
+              '${DateFormat("yyyy년 MM월 dd일 ").format(selectedDay)}($weekday)',
+              style: GoogleFonts.lato(
+                fontSize: 16 * ffem,
+                fontWeight: FontWeight.w700,
+                height: 1.5 * ffem / fem,
+                color: Color(0xff000000),
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
           ..._getEventsForDay(selectedDay).map((Object obj) => ListTile(
-                title: Text(((obj) as Schedule).title),
+                // title: Text(
+                //   '${DateFormat("yyyy년 MM월 dd일 ").format(selectedDay)}($weekday)'
+                // ),
+                // subtitle: Text('${((obj) as Schedule).title} : ${((obj) as Schedule).startTime} ~ ${((obj) as Schedule).endTime}'),
+                title: Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(15 * fem, 13 * fem, 0 * fem, 0 * fem),
+                        width: 115 * fem,
+                        height: 18 * fem,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(width: 5 * ffem, color: Colors.black)
+                          )
+                        ),
+                        child: Text(
+                          '${((obj) as Schedule).startTime} ~ ${((obj) as Schedule).endTime}',
+                          style: TextStyle(
+                            fontSize: 13 * ffem,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2125 * ffem / fem,
+                            color: Color(0xff000000),
+                          ),
+                        )
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10 * fem, 13 * fem, 0 * fem, 0 * fem),
+                        width: 180 * fem,
+                        height: 18 * fem,
+                        child: Text(
+                          '${((obj) as Schedule).title}',
+                          style: TextStyle(
+                            fontSize: 13 * ffem,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2125 * ffem / fem,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
         ]
@@ -175,7 +239,14 @@ class _Calendar extends State<Calendar> {
               builder: (context) => AddEvent(selectedDay)
             )
           );
-          print('schedule: ${schedule.title}');
+          if(EventList[selectedDay] != null) {
+            print('not null');
+            EventList[selectedDay]?.add(schedule);
+          }
+          else {
+            print('null!');
+            EventList[selectedDay] = [schedule];
+          }
         },
         label: Text("+"),
       ),

@@ -18,17 +18,17 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEvent extends State<AddEvent> {
-  String? sHour, sMin, eHour, eMin, alarm, aHour, aMin;
+  String? sHour, sMin, eHour, eMin, notificationTime, nHour, nMin;
   String startTime = "00 : 00";
   String endTime = "00 : 00";
 
   final titleController = TextEditingController();  // title
-  final sharedUserController = TextEditingController();  // userEmail
+  final sharingUserController = TextEditingController();  // userEmail
 
   @override
   void dispose() {
     titleController.dispose();
-    sharedUserController.dispose();
+    sharingUserController.dispose();
     super.dispose();
   }
 
@@ -36,7 +36,7 @@ class _AddEvent extends State<AddEvent> {
   Widget build(BuildContext context) {
     // DateTime selected = widget.schedule.selectedDay;
     String title = titleController.text;
-    String sharingUser = sharedUserController.text;
+    String? sharingUser = sharingUserController.text;
 
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
@@ -246,7 +246,7 @@ class _AddEvent extends State<AddEvent> {
                       borderRadius: BorderRadius.circular(10 * fem),
                     ),
                     child: TextField(
-                      controller: sharedUserController,
+                      controller: sharingUserController,
                       decoration: InputDecoration(
                         hintText: '공유할 사용자의 이메일을 입력해주세요.',
                         hintStyle: GoogleFonts.lato(
@@ -307,7 +307,7 @@ class _AddEvent extends State<AddEvent> {
                             backgroundColor: MaterialStateProperty.all(Color(0xffd9d9d9)),
                           ),
                           child: Text(
-                            alarm != null ? '$alarm' : '00 : 00',
+                            notificationTime != null ? '$notificationTime' : '00 : 00',
                             style: TextStyle(fontSize: 10 * ffem),
                           ),
                           onPressed: () {
@@ -319,9 +319,9 @@ class _AddEvent extends State<AddEvent> {
                               setState(() {
                                 String? hour = timeOfDay?.hour.toString().padLeft(2, "0");
                                 String? min = timeOfDay?.minute.toString().padLeft(2, "0");
-                                aHour = '$hour';
-                                aMin = '$min';
-                                alarm = '$aHour : $aMin';
+                                nHour = '$hour';
+                                nMin = '$min';
+                                notificationTime = '$nHour : $nMin';
                               });
                             });
                           },
@@ -334,7 +334,9 @@ class _AddEvent extends State<AddEvent> {
         )
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pop(context, Schedule(title, startTime, endTime, sharingUser, alarm)),
+        onPressed: () => 
+          // if(sharingUser != null && alarm != null)
+        Navigator.pop(context, Schedule(title, startTime, endTime, sharingUser, notificationTime)),
         label: Text("+"),
       ),
     );
