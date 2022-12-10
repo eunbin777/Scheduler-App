@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:term_project/AddEvent.dart';
+import 'package:term_project/AddSchedule.dart';
+import 'package:term_project/AddTodo.dart';
 import 'package:term_project/AppDrawer.dart';
 import 'package:term_project/Schedule.dart';
 import 'package:term_project/Todo.dart';
@@ -24,7 +25,8 @@ class _Calendar extends State<Calendar> {
   // Map<DateTime, List<Schedule>> ScheduleList;
   // Map<DateTime, List<Todo>> TodoList;
   // Event event;
-  Map<DateTime, List<Object>> EventList = {};
+  Map<DateTime, List<Schedule>> scheduleList = {};
+  Map<DateTime, List<Todo>> todoList = {};
 
   CalendarFormat format = CalendarFormat.month;
 
@@ -37,13 +39,15 @@ class _Calendar extends State<Calendar> {
 
   DateTime focusedDay = DateTime.now();
 
-  TextEditingController _eventController = TextEditingController();
+  // TextEditingController _eventController = TextEditingController();
+  // TextEditingController _TodoController = TextEditingController();
 
-  @override
-  void dispose() {
-    _eventController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // _eventController.dispose();
+  //   _TodoController.dispose();
+  //   super.dispose();
+  // }
 
   // add schedule
   // Map<DateTime, List<Schedule>> scheduleList = {
@@ -63,8 +67,12 @@ class _Calendar extends State<Calendar> {
   //   super.initState();
   // }
 
-  List<Object> _getEventsForDay(DateTime day) {
-    return EventList[day] ?? [];
+  List<Schedule> _getSchedulesForDay(DateTime day) {
+    return scheduleList[day] ?? [];
+  }
+
+  List<Todo> _getTodosForDay(DateTime day) {
+    return todoList[day] ?? [];
   }
   // List<Schedule> _getSchedulesForDay(DateTime day) {
   //   return ScheduleList[day] ?? [];
@@ -87,6 +95,7 @@ class _Calendar extends State<Calendar> {
     String weekday = DateFormat('E', 'ko').format(selectedDay);
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(),
       drawer: AppDrawer(widget.id),
       body: Column(
@@ -103,7 +112,7 @@ class _Calendar extends State<Calendar> {
                 shape: BoxShape.circle
               ),
             ),
-            eventLoader: _getEventsForDay,
+            eventLoader: _getSchedulesForDay,
             onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
               // 선택 날짜 갱신
               setState((){
@@ -142,113 +151,165 @@ class _Calendar extends State<Calendar> {
               textAlign: TextAlign.left,
             ),
           ),
-          ..._getEventsForDay(selectedDay).map((Object obj) => ListTile(
-                // title: Text(
-                //   '${DateFormat("yyyy년 MM월 dd일 ").format(selectedDay)}($weekday)'
-                // ),
-                // subtitle: Text('${((obj) as Schedule).title} : ${((obj) as Schedule).startTime} ~ ${((obj) as Schedule).endTime}'),
-                title: Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(15 * fem, 13 * fem, 0 * fem, 0 * fem),
-                        width: 115 * fem,
-                        height: 18 * fem,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            right: BorderSide(width: 5 * ffem, color: Colors.black)
-                          )
-                        ),
-                        child: Text(
-                          '${((obj) as Schedule).startTime} ~ ${((obj) as Schedule).endTime}',
-                          style: TextStyle(
-                            fontSize: 13 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2125 * ffem / fem,
-                            color: Color(0xff000000),
-                          ),
-                        )
+          ..._getSchedulesForDay(selectedDay).map((Schedule s) => ListTile(
+            title: Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(15 * fem, 13 * fem, 0 * fem, 0 * fem),
+                    width: 115 * fem,
+                    height: 18 * fem,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(width: 5 * ffem, color: Colors.black)
+                      )
+                    ),
+                    child: Text(
+                      '${s.startTime} ~ ${s.endTime}',
+                      style: TextStyle(
+                        fontSize: 13 * ffem,
+                        fontWeight: FontWeight.w400,
+                        height: 1.2125 * ffem / fem,
+                        color: Color(0xff000000),
                       ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10 * fem, 13 * fem, 0 * fem, 0 * fem),
-                        width: 180 * fem,
-                        height: 18 * fem,
-                        child: Text(
-                          '${((obj) as Schedule).title}',
-                          style: TextStyle(
-                            fontSize: 13 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2125 * ffem / fem,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ),
-                    ],
+                    )
                   ),
-                ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10 * fem, 13 * fem, 0 * fem, 0 * fem),
+                    width: 180 * fem,
+                    height: 18 * fem,
+                    child: Text(
+                      '${s.title}',
+                      style: TextStyle(
+                        fontSize: 13 * ffem,
+                        fontWeight: FontWeight.w400,
+                        height: 1.2125 * ffem / fem,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
+          ),),  // map
+          ..._getTodosForDay(selectedDay).map((Todo t) => ListTile(
+            title: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                              activeColor: Colors.white,
+                              checkColor: Colors.black,
+                              value: t.isDone,
+                              onChanged: (value) {
+                                setState(() {
+                                  t.isDone = value;
+                                });
+                              },
+                            ),
+                            Text('${t.task}'),
+                          ],
+                        ),
+                      ],
+                    )
+                  ),
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //     itemCount: todoList.length,
+                  //     itemBuilder: (context, index) {
+                  //       return Card(
+                  //         child: CheckboxListTile(
+                  //           title: Text(t.task),
+                  //           value: t.isDone,
+                  //           onChanged: (val) {
+                  //             setState(() {
+                  //               t.isDone = false;
+                  //               print(index);
+                  //             },);
+                  //           },
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+          )),  //map
         ]
-      ),
+      ), 
       floatingActionButton: FloatingActionButton.extended(
-        // onPressed: () => showDialog(
-        //   context: context,
-        //   builder: (context) => AlertDialog(
-        //     title: Text("일정 등록"),
-        //     content: TextFormField(controller: _eventController,),
-        //     actions: [
-        //       TextButton(
-        //         child: Text("확인"),
-        //         onPressed: () {
-        //           if(_eventController.text.isEmpty) {
-                    
-        //           }
-        //           else {
-        //             if(EventList[selectedDay] != null) {
-        //               EventList[selectedDay]?.add(Schedule(title: _eventController.text));
-        //               // if(EventList[selectedDay])
-        //             }
-        //             else {
-        //               EventList[selectedDay] = [Schedule(title: _eventController.text)];
-        //             }
-        //           }
-        //           Navigator.pop(context);
-        //           _eventController.clear();
-        //           setState(() {
-                    
-        //           });
-        //           return;
-        //         },
-        //       ),
-        //       TextButton(
-        //         child: Text("취소"),
-        //         onPressed: () => Navigator.pop(context),
-        //       ),
-        //     ],
-        //   )
-        // ),
-
-
-
-        
-        onPressed: () async {
-          final schedule = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddEvent(selectedDay)
-            )
-          );
-          if(EventList[selectedDay] != null) {
-            print('not null');
-            EventList[selectedDay]?.add(schedule);
-          }
-          else {
-            print('null!');
-            EventList[selectedDay] = [schedule];
-          }
-        },
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('선택'),
+            content: Text('추가할 item의 종류를 선택해주세요'),
+            actions: [
+              TextButton(
+                child: Text('일정'),
+                onPressed: () async {
+                  final schedule = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddSchedule(selectedDay)
+                    )
+                  );
+                  Navigator.pop(context);
+                  if(scheduleList[selectedDay] != null) {
+                    scheduleList[selectedDay]?.add(schedule);
+                  }
+                  else {
+                    scheduleList[selectedDay] = [schedule];
+                  }
+                }
+              ),
+              TextButton(
+                child: Text("할 일"),
+                onPressed: () async {
+                  final todo = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddTodo(selectedDay)
+                    )
+                  );
+                  Navigator.pop(context);
+                  if(todoList[selectedDay] != null) {
+                    todoList[selectedDay]?.add(todo);
+                  }
+                  else {
+                    todoList[selectedDay] = [todo];
+                  }
+                }
+              ),
+              TextButton(
+                child: Text("취소"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          )
+        ),
         label: Text("+"),
+        // onPressed: () async {
+        //   final schedule = await Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => AddEvent(selectedDay)
+        //     )
+        //   );
+        //   if(scheduleList[selectedDay] != null) {
+        //     scheduleList[selectedDay]?.add(schedule);
+        //   }
+        //   else {
+        //     scheduleList[selectedDay] = [schedule];
+        //   }
+        // },
       ),
     );
   }

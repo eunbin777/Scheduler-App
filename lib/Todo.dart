@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 
 class Todo {
   String task;
-  bool isDone;
+  bool? isDone;
   DateTime date;
 
   Todo(this.task, this.isDone, this.date);

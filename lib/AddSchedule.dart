@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:term_project/AddEvent.dart';
-import 'package:term_project/AppDrawer.dart';
-import 'package:term_project/Calendar.dart';
 import 'package:term_project/Schedule.dart';
 import 'package:intl/intl.dart';
 
 
-class AddEvent extends StatefulWidget {
+class AddSchedule extends StatefulWidget {
   // final Schedule schedule;
   final DateTime selectedDay;
 
-  AddEvent(@required this.selectedDay, {Key? key}) : super(key : key);
+  AddSchedule(@required this.selectedDay, {Key? key}) : super(key : key);
   // AddEvent({Key: key, this.schedule}) : super(key : key);
 
-  _AddEvent createState() => _AddEvent();
+  _AddSchedule createState() => _AddSchedule();
 }
 
-class _AddEvent extends State<AddEvent> {
+class _AddSchedule extends State<AddSchedule> {
   String? sHour, sMin, eHour, eMin, notificationTime, nHour, nMin;
   String startTime = "00 : 00";
   String endTime = "00 : 00";
