@@ -20,60 +20,49 @@ class AppDrawer extends StatelessWidget {
                 backgroundImage: AssetImage('assets/profile.png'),
                 backgroundColor: Colors.white,
               ),
-            // otherAccountsPictures: <Widget>[
-            //   // 다른 계정 이미지[] set
-            //   CircleAvatar(
-            //     backgroundColor: Colors.white,
-            //     backgroundImage: AssetImage('assets/profile2.png'),
-            //   ),
-            //   CircleAvatar(
-            //     backgroundColor: Colors.white,
-            //     backgroundImage: AssetImage('assets/profile2.png'),
-            //   )
-            // ],
-            accountName: Text(''),
-            accountEmail: Text('$id'),
-            onDetailsPressed: () {
-              print('arrow is clicked');
-            },
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40.0),
-                bottomRight: Radius.circular(40.0)
-              )
-            ),
+              accountName: Text(''),
+              accountEmail: Text('$id'),
+              onDetailsPressed: () {
+                print('arrow is clicked');
+              },
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40.0),
+                  bottomRight: Radius.circular(40.0)
+                )
+              ),
           ),
+          // ListTile(
+          //   leading: Icon(
+          //     Icons.home,
+          //     color: Colors.grey[850],
+          //   ),
+          //   title: Text('Home'),
+          //   onTap: () {
+          //     print('Home is clicked');
+          //   },
+          //   trailing: Icon(Icons.add),
+          // ),
           ListTile(
             leading: Icon(
-              Icons.home,
-              color: Colors.grey[850],
-            ),
-            title: Text('Home'),
-            onTap: () {
-              print('Home is clicked');
-            },
-            trailing: Icon(Icons.add),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.settings,
-              color: Colors.grey[850],
-            ),
-            title: Text('Setting'),
-            onTap: () {
-              print('Setting is clicked');
-            },
-            trailing: Icon(Icons.add),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.question_answer,
+              Icons.storage_rounded,
               color: Colors.grey[850],
             ),
             title: Text('보관함'),
             onTap: () {
-              print('Q&A is clicked');
+              print('Storage is clicked');
+            },
+            trailing: Icon(Icons.add),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.logout_rounded,
+              color: Colors.grey[850],
+            ),
+            title: Text('로그아웃'),
+            onTap: () {
+              print('Logout is clicked');
             },
             trailing: Icon(Icons.add),
           ),

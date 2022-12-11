@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:term_project/Schedule.dart';
 import 'package:intl/intl.dart';
+import 'package:term_project/Schedule.dart';
+import 'package:term_project/Todo.dart';
+import 'package:term_project/Calendar.dart';
 
-
-class AddSchedule extends StatefulWidget {
+class ModifyScheduleForm extends StatefulWidget {
   final DateTime selectedDay;
+  // final Schedule schedule;
 
-  AddSchedule(@required this.selectedDay, {Key? key}) : super(key : key);
-
-  _AddSchedule createState() => _AddSchedule();
+  ModifyScheduleForm(@required this.selectedDay, {Key? key}) : super(key : key);
+  
+  _ModifyScheduleForm createState() => _ModifyScheduleForm();
 }
 
-class _AddSchedule extends State<AddSchedule> {
+class _ModifyScheduleForm extends State<ModifyScheduleForm> {
   String? sHour, sMin, eHour, eMin, notificationTime, nHour, nMin;
   String startTime = "00 : 00";
   String endTime = "00 : 00";

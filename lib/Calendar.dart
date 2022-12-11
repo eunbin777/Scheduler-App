@@ -5,10 +5,10 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:term_project/AddSchedule.dart';
 import 'package:term_project/AddTodo.dart';
 import 'package:term_project/AppDrawer.dart';
+import 'package:term_project/ModifyScheduleForm.dart';
 import 'package:term_project/Schedule.dart';
 import 'package:term_project/Todo.dart';
-import 'package:term_project/Event.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 
 class Calendar extends StatefulWidget {
@@ -21,10 +21,6 @@ class Calendar extends StatefulWidget {
 }
 
 class _Calendar extends State<Calendar> {  
-  // Schedule schedule = new Schedule("", "", "", "", "");
-  // Map<DateTime, List<Schedule>> ScheduleList;
-  // Map<DateTime, List<Todo>> TodoList;
-  // Event event;
   Map<DateTime, List<Schedule>> scheduleList = {};
   Map<DateTime, List<Todo>> todoList = {};
 
@@ -37,35 +33,7 @@ class _Calendar extends State<Calendar> {
     DateTime.now().weekday,
   ); 
 
-  DateTime focusedDay = DateTime.now();
-
-  // TextEditingController _eventController = TextEditingController();
-  // TextEditingController _TodoController = TextEditingController();
-
-  // @override
-  // void dispose() {
-  //   // _eventController.dispose();
-  //   _TodoController.dispose();
-  //   super.dispose();
-  // }
-
-  // add schedule
-  // Map<DateTime, List<Schedule>> scheduleList = {
-
-  // };
-
-  // Map<DateTime, List<Todo>> TodoList = {
-
-  // };
-
-  // @override
-  // void initState() {
-  //   // ScheduleList = {};
-  //   // TodoList = {};
-  //   // event = Event(scheduleList: ScheduleList, TodoList: TodoList);
-  //   EventList = {};
-  //   super.initState();
-  // }
+  DateTime focusedDay = DateTime.now(); 
 
   List<Schedule> _getSchedulesForDay(DateTime day) {
     return scheduleList[day] ?? [];
@@ -74,17 +42,9 @@ class _Calendar extends State<Calendar> {
   List<Todo> _getTodosForDay(DateTime day) {
     return todoList[day] ?? [];
   }
-  // List<Schedule> _getSchedulesForDay(DateTime day) {
-  //   return ScheduleList[day] ?? [];
-  // }
 
-  // List<Todo> _getTodosForDay(DateTime day) {
-  //   return TodoList[day] ?? [];
-  // }
-
-  // List<Event> _getEventsForDay(DateTime day) {
-  //   return events[day] ?? [];
-  // }
+  // Schedule _schedule = new Schedule("", "", "", "", "");
+  // Schedule _schedule;
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +62,8 @@ class _Calendar extends State<Calendar> {
         children: [
           TableCalendar(
             locale : 'ko_KR',
-            firstDay: DateTime.utc(2021, 10, 16),
-            lastDay: DateTime.utc(2030, 3, 14),
+            firstDay: DateTime.utc(2020, 03, 01),
+            lastDay: DateTime.utc(2030, 12, 31),
             focusedDay: focusedDay,
             calendarStyle: CalendarStyle(
               markerSize: 10.0,
@@ -133,17 +93,13 @@ class _Calendar extends State<Calendar> {
             },
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0 * fem, 15 * fem, 0 * fem, 12 * fem),
+            margin: EdgeInsets.fromLTRB(0 * fem, 15 * fem, 0 * fem, 10 * fem),
             width: 320 * fem,
             height: 22 * fem,
-            // decoration: BoxDecoration (
-            //           color: Color(0xffd9d9d9),
-            //           borderRadius: BorderRadius.circular(10 * fem),
-            //         ),
             child: Text(
               '${DateFormat("yyyy년 MM월 dd일 ").format(selectedDay)}($weekday)',
               style: GoogleFonts.lato(
-                fontSize: 16 * ffem,
+                fontSize: 15 * ffem,
                 fontWeight: FontWeight.w700,
                 height: 1.5 * ffem / fem,
                 color: Color(0xff000000),
@@ -152,47 +108,151 @@ class _Calendar extends State<Calendar> {
             ),
           ),
           ..._getSchedulesForDay(selectedDay).map((Schedule s) => ListTile(
-            title: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(15 * fem, 13 * fem, 0 * fem, 0 * fem),
-                    width: 115 * fem,
-                    height: 18 * fem,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        right: BorderSide(width: 5 * ffem, color: Colors.black)
+              //  title: InkWell(
+              //   onTap: () async {
+              //     final modifySchedule = await Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => ModifyScheduleForm(selectedDay)
+              //       )
+              //     );
+              //     //////////
+              //     ///
+              //     ///  Navigator
+                  
+              //     // s = await Navigator.push(
+              //     //     context,
+              //     //     MaterialPageRoute(
+              //     //       builder: (context) => ModifySchedule(selectedDay)
+              //     //     )
+              //     // );
+              //     // // print(scheduleList[selectedDay]?.indexOf(s));
+              //     // int? index = scheduleList[selectedDay]?.indexOf(s);
+              //     // print(scheduleList[selectedDay]?.elementAt(index).);
+        
+              //     // setState(() {
+                    
+              //     // });
+              //     // print('title: ${modifySchedule.title}');
+              //     // print('$selectedDay : ${scheduleList[selectedDay]?.elementAt(0).title}');
+
+              //     // for(int i = 0; i < scheduleList[selectedDay].forEach((element) {print}); i++)
+              //     // scheduleList[selectedDay].forEach((element) {
+              //     //   print(element);
+              //     // });
+              //     // setState(() {
+              //     //   scheduleList[selectedDay] = s;
+              //     // });
+              //   },
+              //   child: Container(
+              //     child: Row(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Container(
+              //           margin: EdgeInsets.fromLTRB(15 * fem, 0 * fem, 0 * fem, 0 * fem),
+              //           width: 115 * fem,
+              //           height: 18 * fem,
+              //           decoration: BoxDecoration(
+              //             border: Border(
+              //               right: BorderSide(width: 5 * ffem, color: Colors.black)
+              //             )
+              //           ),
+              //           child: Text(
+              //             '${s.startTime} ~ ${s.endTime}',
+              //             style: TextStyle(
+              //               fontSize: 13 * ffem,
+              //               fontWeight: FontWeight.w400,
+              //               height: 1.2125 * ffem / fem,
+              //               color: Color(0xff000000),
+              //             ),
+              //           )
+              //         ),
+              //         Container(
+              //           margin: EdgeInsets.fromLTRB(10 * fem, 0 * fem, 0 * fem, 0 * fem),
+              //           width: 180 * fem,
+              //           height: 18 * fem,
+              //           child: Text(
+              //             '${s.title}',
+              //             style: TextStyle(
+              //               fontSize: 13 * ffem,
+              //               fontWeight: FontWeight.w400,
+              //               height: 1.2125 * ffem / fem,
+              //               color: Color(0xff000000),
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              //  ),
+            title: InkWell(
+              onTap: () async {
+                  final modifySchedule = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ModifyScheduleForm(selectedDay)
+                    )
+                  );
+              },
+              child: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(15 * fem, 0 * fem, 0 * fem, 0 * fem),
+                      width: 115 * fem,
+                      height: 18 * fem,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(width: 5 * ffem, color: Colors.black)
+                        )
+                      ),
+                      child: Text(
+                        '${s.startTime} ~ ${s.endTime}',
+                        style: TextStyle(
+                          fontSize: 13 * ffem,
+                          fontWeight: FontWeight.w400,
+                          height: 1.2125 * ffem / fem,
+                          color: Color(0xff000000),
+                        ),
                       )
                     ),
-                    child: Text(
-                      '${s.startTime} ~ ${s.endTime}',
-                      style: TextStyle(
-                        fontSize: 13 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2125 * ffem / fem,
-                        color: Color(0xff000000),
-                      ),
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10 * fem, 13 * fem, 0 * fem, 0 * fem),
-                    width: 180 * fem,
-                    height: 18 * fem,
-                    child: Text(
-                      '${s.title}',
-                      style: TextStyle(
-                        fontSize: 13 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2125 * ffem / fem,
-                        color: Color(0xff000000),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(10 * fem, 0 * fem, 0 * fem, 0 * fem),
+                      width: 180 * fem,
+                      height: 18 * fem,
+                      child: Text(
+                        '${s.title}',
+                        style: TextStyle(
+                          fontSize: 13 * ffem,
+                          fontWeight: FontWeight.w400,
+                          height: 1.2125 * ffem / fem,
+                          color: Color(0xff000000),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+            ),),  
+          ),// map
+
+          
+          Container(
+            margin: EdgeInsets.fromLTRB(0 * fem, 15 * fem, 0 * fem, 10 * fem),
+            width: 320 * fem,
+            height: 22 * fem,
+            child: Text(
+              '할 일',
+              style: GoogleFonts.lato(
+                fontSize: 15 * ffem,
+                fontWeight: FontWeight.w700,
+                height: 1.5 * ffem / fem,
+                color: Color(0xff000000),
+              ),
+              textAlign: TextAlign.left,
             ),
-          ),),  // map
+          ),
           ..._getTodosForDay(selectedDay).map((Todo t) => ListTile(
             title: Container(
               child: Column(
@@ -220,25 +280,6 @@ class _Calendar extends State<Calendar> {
                       ],
                     )
                   ),
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     itemCount: todoList.length,
-                  //     itemBuilder: (context, index) {
-                  //       return Card(
-                  //         child: CheckboxListTile(
-                  //           title: Text(t.task),
-                  //           value: t.isDone,
-                  //           onChanged: (val) {
-                  //             setState(() {
-                  //               t.isDone = false;
-                  //               print(index);
-                  //             },);
-                  //           },
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -262,6 +303,7 @@ class _Calendar extends State<Calendar> {
                     )
                   );
                   Navigator.pop(context);
+
                   if(scheduleList[selectedDay] != null) {
                     scheduleList[selectedDay]?.add(schedule);
                   }
@@ -280,6 +322,7 @@ class _Calendar extends State<Calendar> {
                     )
                   );
                   Navigator.pop(context);
+
                   if(todoList[selectedDay] != null) {
                     todoList[selectedDay]?.add(todo);
                   }
@@ -296,20 +339,6 @@ class _Calendar extends State<Calendar> {
           )
         ),
         label: Text("+"),
-        // onPressed: () async {
-        //   final schedule = await Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => AddEvent(selectedDay)
-        //     )
-        //   );
-        //   if(scheduleList[selectedDay] != null) {
-        //     scheduleList[selectedDay]?.add(schedule);
-        //   }
-        //   else {
-        //     scheduleList[selectedDay] = [schedule];
-        //   }
-        // },
       ),
     );
   }
