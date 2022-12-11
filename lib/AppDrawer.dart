@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AppDrawer extends StatelessWidget {
   final String id;
+  final _auth = FirebaseAuth.instance;
 
   AppDrawer (@required this.id, {Key? key}) : super(key: key);
 
@@ -60,8 +62,15 @@ class AppDrawer extends StatelessWidget {
               color: Colors.grey[850],
             ),
             title: Text('로그아웃'),
-            onTap: () {
-              print('Logout is clicked');
+            onTap: () async{
+              print('Log out is cliekd');
+              try{
+                await _auth.signOut();
+                print('sign out complete');
+              }catch(e){
+                print('sign out failed');
+                print(e.toString());
+              }
             },
             trailing: Icon(Icons.add),
           ),
