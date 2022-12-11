@@ -3,6 +3,7 @@ import 'package:flutter/physics.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:term_project/Calendar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 class LoginForm extends StatefulWidget {
@@ -105,7 +106,7 @@ class _LoginForm extends State<LoginForm> {
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context) => Calendar(email, password)
+                            builder: (context) => Calendar(email)
                           )
                         );
                       } 
@@ -149,12 +150,25 @@ class _LoginForm extends State<LoginForm> {
                 width: 280 * fem,
                 height: 40 * fem,
                 child: OutlinedButton(
-                  onPressed: () {
-                    // goto naver login form
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => ,
-                    // );
+                  onPressed: () async{
+                    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+                    // Obtain the auth details from the request
+                    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+                    // Create a new credential
+                    final credential = GoogleAuthProvider.credential(
+                      accessToken: googleAuth?.accessToken,
+                      idToken: googleAuth?.idToken,
+                    );
+
+                    // Once signed in, return the UserCredential
+                    final authResult = await FirebaseAuth.instance.signInWithCredential(credential);
+                    final email = authResult.user?.email;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Calendar(email!)
+                    ));
                   },
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: Color(0xff000000)),
@@ -168,7 +182,7 @@ class _LoginForm extends State<LoginForm> {
                         Center(
                           child:  
                             Text(
-                              '네이버로 로그인',
+                              '구글로 로그인',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.lato (
                                 fontSize: 16 * ffem,

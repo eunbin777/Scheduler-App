@@ -13,9 +13,8 @@ import 'package:term_project/Todo.dart';
 
 class Calendar extends StatefulWidget {
   final String id;
-  final String password;
 
-  Calendar(@required this.id, @required this.password, {Key? key}) : super(key: key);
+  Calendar(@required this.id, {Key? key}) : super(key: key);
 
   _Calendar createState() => _Calendar();
 }
