@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -165,6 +167,7 @@ class _LoginForm extends State<LoginForm> {
                     // Once signed in, return the UserCredential
                     final authResult = await FirebaseAuth.instance.signInWithCredential(credential);
                     final email = authResult.user?.email;
+                    // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Calendar(email!)
