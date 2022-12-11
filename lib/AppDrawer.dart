@@ -63,7 +63,7 @@ class AppDrawer extends StatelessWidget {
             ),
             title: Text('로그아웃'),
             onTap: () async{
-              print('Log out is cliekd');
+              print('Log out is clicked');
               try{
                 await _auth.signOut();
                 print('sign out complete');
