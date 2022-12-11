@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:term_project/LoginForm.dart';
 
 class AppDrawer extends StatelessWidget {
   final String id;
@@ -17,7 +16,7 @@ class AppDrawer extends StatelessWidget {
             UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
                 // 현재 계정 이미지 set
-                backgroundImage: AssetImage('assets/profile.png'),
+                backgroundImage: AssetImage('images/user.png'),
                 backgroundColor: Colors.white,
               ),
               accountName: Text(''),
