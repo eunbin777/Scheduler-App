@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:term_project/LoginForm.dart';
+
 class AppDrawer extends StatelessWidget {
   final String id;
   final _auth = FirebaseAuth.instance;
@@ -71,6 +73,10 @@ class AppDrawer extends StatelessWidget {
                 print('sign out failed');
                 print(e.toString());
               }
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginForm()),
+              );
             },
             trailing: Icon(Icons.add),
           ),
