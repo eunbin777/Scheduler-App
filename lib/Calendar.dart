@@ -121,7 +121,9 @@ class _Calendar extends State<Calendar> {
                   int index = scheduleList[selectedDay]!.indexOf(s);
 
                   if(modifySchedule.title == "null") {
-                    scheduleList[selectedDay]!.removeAt(index);
+                    setState(() {
+                      scheduleList[selectedDay]!.removeAt(index);
+                    });
                   }
                   else {
                     setState(() {
@@ -200,7 +202,9 @@ class _Calendar extends State<Calendar> {
                 int index = todoList[selectedDay]!.indexOf(t);
 
                 if(modifyTodo.task == "null") {
-                    todoList[selectedDay]!.removeAt(index);
+                    setState(() {
+                      todoList[selectedDay]!.removeAt(index);
+                    });
                   }
                   else {
                     setState(() {
@@ -258,10 +262,14 @@ class _Calendar extends State<Calendar> {
                   Navigator.pop(context);
 
                   if(scheduleList[selectedDay] != null) {
-                    scheduleList[selectedDay]?.add(schedule);
+                    setState(() {
+                      scheduleList[selectedDay]!.add(schedule);
+                    });
                   }
                   else {
-                    scheduleList[selectedDay] = [schedule];
+                    setState(() {
+                      scheduleList[selectedDay] = [schedule];
+                    });
                   }
                 }
               ),
@@ -277,10 +285,14 @@ class _Calendar extends State<Calendar> {
                   Navigator.pop(context);
 
                   if(todoList[selectedDay] != null) {
-                    todoList[selectedDay]?.add(todo);
+                    setState(() {
+                      todoList[selectedDay]?.add(todo);
+                    });
                   }
                   else {
-                    todoList[selectedDay] = [todo];
+                    setState(() {
+                      todoList[selectedDay] = [todo];
+                    });
                   }
                 }
               ),
