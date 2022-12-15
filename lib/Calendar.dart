@@ -173,8 +173,6 @@ class _Calendar extends State<Calendar> {
               ),
             ),),  
           ),// map
-
-          
           Container(
             margin: EdgeInsets.fromLTRB(0 * fem, 15 * fem, 0 * fem, 10 * fem),
             width: 320 * fem,
@@ -228,6 +226,8 @@ class _Calendar extends State<Calendar> {
                               onChanged: (value) {
                                 setState(() {
                                   t.isDone = value;
+                                  int index = todoList[selectedDay]!.indexOf(t);
+                                  todoList[selectedDay]!.removeAt(index);
                                 });
                               },
                             ),

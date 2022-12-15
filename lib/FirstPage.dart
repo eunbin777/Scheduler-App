@@ -3,11 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:term_project/LoginForm.dart';
 import 'package:term_project/RegistrationForm.dart';
 
-// class FirstPage extends StatefulWidget {
-//   @override
-//   _FirstPage createState() => _FirstPage();
-// }
-
 class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -107,7 +107,6 @@ class _ModifyTodoForm extends State<ModifyTodoForm> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => 
-          // if(sharingUser != null && alarm != null)
           Navigator.pop(context, Todo(task, false)),
           label: Text("+"),
       ),

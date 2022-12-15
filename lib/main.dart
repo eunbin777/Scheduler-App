@@ -37,11 +37,6 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(),
-    //   drawer: AppDrawer(),
-    //   body: Calendar()
-    // );
     return MaterialApp (
       theme: ThemeData(
         primarySwatch: Colors.grey,
