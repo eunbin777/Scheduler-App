@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, annotate_overrides, library_private_types_in_public_api, prefer_const_constructors, unused_local_variable, avoid_unnecessary_containers, unnecessary_string_interpolations, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +7,7 @@ import 'package:term_project/AddSchedule.dart';
 import 'package:term_project/AddTodo.dart';
 import 'package:term_project/AppDrawer.dart';
 import 'package:term_project/ModifyScheduleForm.dart';
+import 'package:term_project/ModifyTodoForm.dart';
 import 'package:term_project/Schedule.dart';
 import 'package:term_project/Todo.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +16,9 @@ import 'package:term_project/Todo.dart';
 class Calendar extends StatefulWidget {
   final String id;
 
+
   Calendar(@required this.id, {Key? key}) : super(key: key);
+
 
   _Calendar createState() => _Calendar();
 }
@@ -22,6 +26,8 @@ class Calendar extends StatefulWidget {
 class _Calendar extends State<Calendar> {  
   Map<DateTime, List<Schedule>> scheduleList = {};
   Map<DateTime, List<Todo>> todoList = {};
+
+  // Schedule? showSchedule;
 
   CalendarFormat format = CalendarFormat.month;
 
@@ -41,9 +47,6 @@ class _Calendar extends State<Calendar> {
   List<Todo> _getTodosForDay(DateTime day) {
     return todoList[day] ?? [];
   }
-
-  // Schedule _schedule = new Schedule("", "", "", "", "");
-  // Schedule _schedule;
 
   @override
   Widget build(BuildContext context) {
@@ -73,17 +76,17 @@ class _Calendar extends State<Calendar> {
             ),
             eventLoader: _getSchedulesForDay,
             onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
-              // 선택 날짜 갱신
+              // update selected day
               setState((){
                 this.selectedDay = selectedDay;
                 this.focusedDay = focusedDay;
               });
             },
             selectedDayPredicate: (DateTime day) {
-              // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.	
+              // change the shape of selected day
               return isSameDay(selectedDay, day);
             },
-            /* calendar format update */
+            // update calendar format
             calendarFormat: format,
             onFormatChanged: (CalendarFormat format) {
               setState(() {
@@ -107,83 +110,6 @@ class _Calendar extends State<Calendar> {
             ),
           ),
           ..._getSchedulesForDay(selectedDay).map((Schedule s) => ListTile(
-              //  title: InkWell(
-              //   onTap: () async {
-              //     final modifySchedule = await Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => ModifyScheduleForm(selectedDay)
-              //       )
-              //     );
-              //     //////////
-              //     ///
-              //     ///  Navigator
-                  
-              //     // s = await Navigator.push(
-              //     //     context,
-              //     //     MaterialPageRoute(
-              //     //       builder: (context) => ModifySchedule(selectedDay)
-              //     //     )
-              //     // );
-              //     // // print(scheduleList[selectedDay]?.indexOf(s));
-              //     // int? index = scheduleList[selectedDay]?.indexOf(s);
-              //     // print(scheduleList[selectedDay]?.elementAt(index).);
-        
-              //     // setState(() {
-                    
-              //     // });
-              //     // print('title: ${modifySchedule.title}');
-              //     // print('$selectedDay : ${scheduleList[selectedDay]?.elementAt(0).title}');
-
-              //     // for(int i = 0; i < scheduleList[selectedDay].forEach((element) {print}); i++)
-              //     // scheduleList[selectedDay].forEach((element) {
-              //     //   print(element);
-              //     // });
-              //     // setState(() {
-              //     //   scheduleList[selectedDay] = s;
-              //     // });
-              //   },
-              //   child: Container(
-              //     child: Row(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         Container(
-              //           margin: EdgeInsets.fromLTRB(15 * fem, 0 * fem, 0 * fem, 0 * fem),
-              //           width: 115 * fem,
-              //           height: 18 * fem,
-              //           decoration: BoxDecoration(
-              //             border: Border(
-              //               right: BorderSide(width: 5 * ffem, color: Colors.black)
-              //             )
-              //           ),
-              //           child: Text(
-              //             '${s.startTime} ~ ${s.endTime}',
-              //             style: TextStyle(
-              //               fontSize: 13 * ffem,
-              //               fontWeight: FontWeight.w400,
-              //               height: 1.2125 * ffem / fem,
-              //               color: Color(0xff000000),
-              //             ),
-              //           )
-              //         ),
-              //         Container(
-              //           margin: EdgeInsets.fromLTRB(10 * fem, 0 * fem, 0 * fem, 0 * fem),
-              //           width: 180 * fem,
-              //           height: 18 * fem,
-              //           child: Text(
-              //             '${s.title}',
-              //             style: TextStyle(
-              //               fontSize: 13 * ffem,
-              //               fontWeight: FontWeight.w400,
-              //               height: 1.2125 * ffem / fem,
-              //               color: Color(0xff000000),
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              //  ),
             title: InkWell(
               onTap: () async {
                   final modifySchedule = await Navigator.push(
@@ -192,6 +118,18 @@ class _Calendar extends State<Calendar> {
                       builder: (context) => ModifyScheduleForm(selectedDay)
                     )
                   );
+                  int index = scheduleList[selectedDay]!.indexOf(s);
+
+                  if(modifySchedule.title == "null") {
+                    setState(() {
+                      scheduleList[selectedDay]!.removeAt(index);
+                    });
+                  }
+                  else {
+                    setState(() {
+                      scheduleList[selectedDay]!.fillRange(index, index+1, modifySchedule);
+                    });
+                  }
               },
               child: Container(
                 child: Row(
@@ -253,7 +191,27 @@ class _Calendar extends State<Calendar> {
             ),
           ),
           ..._getTodosForDay(selectedDay).map((Todo t) => ListTile(
-            title: Container(
+            title: InkWell(
+              onTap: () async {
+                final modifyTodo = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ModifyTodoForm(selectedDay)
+                  )
+                );
+                int index = todoList[selectedDay]!.indexOf(t);
+
+                if(modifyTodo.task == "null") {
+                    setState(() {
+                      todoList[selectedDay]!.removeAt(index);
+                    });
+                  }
+                  else {
+                    setState(() {
+                      todoList[selectedDay]!.fillRange(index, index+1, modifyTodo);
+                    });
+                  }
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -289,7 +247,7 @@ class _Calendar extends State<Calendar> {
         onPressed: () => showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('선택'),
+            title: Text('등록'),
             content: Text('추가할 item의 종류를 선택해주세요'),
             actions: [
               TextButton(
@@ -304,10 +262,14 @@ class _Calendar extends State<Calendar> {
                   Navigator.pop(context);
 
                   if(scheduleList[selectedDay] != null) {
-                    scheduleList[selectedDay]?.add(schedule);
+                    setState(() {
+                      scheduleList[selectedDay]!.add(schedule);
+                    });
                   }
                   else {
-                    scheduleList[selectedDay] = [schedule];
+                    setState(() {
+                      scheduleList[selectedDay] = [schedule];
+                    });
                   }
                 }
               ),
@@ -323,10 +285,14 @@ class _Calendar extends State<Calendar> {
                   Navigator.pop(context);
 
                   if(todoList[selectedDay] != null) {
-                    todoList[selectedDay]?.add(todo);
+                    setState(() {
+                      todoList[selectedDay]?.add(todo);
+                    });
                   }
                   else {
-                    todoList[selectedDay] = [todo];
+                    setState(() {
+                      todoList[selectedDay] = [todo];
+                    });
                   }
                 }
               ),

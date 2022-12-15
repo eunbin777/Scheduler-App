@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:term_project/Schedule.dart';
-import 'package:term_project/Todo.dart';
-import 'package:term_project/Calendar.dart';
 
 class ModifyScheduleForm extends StatefulWidget {
   final DateTime selectedDay;
@@ -317,6 +315,41 @@ class _ModifyScheduleForm extends State<ModifyScheduleForm> {
                           },
                         ),
                   ), 
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0 * fem, 15 * ffem, 44 * fem, 5 * fem),
+                    width: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 8 * fem),
+                          width: 18 * fem,
+                          height: 18 * fem,
+                          child: Image.asset(
+                            "images/delete.png",
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            Navigator.pop(context, Schedule("null", "null", "null", "null", "null"));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(5 * fem, 0 * fem, 0 * fem, 1 * fem),
+                            child: Text(
+                              '삭제',
+                              style: GoogleFonts.lato(
+                                fontSize: 11 * fem,
+                                fontWeight: FontWeight.w500,
+                                height: 1.2125 * ffem / fem,
+                                color: Color(0xb2000000),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],             
               ),
             ),
