@@ -120,9 +120,14 @@ class _Calendar extends State<Calendar> {
                   );
                   int index = scheduleList[selectedDay]!.indexOf(s);
 
-                  setState(() {
-                    scheduleList[selectedDay]!.fillRange(index, index+1, modifySchedule);
-                  });
+                  if(modifySchedule.title == "null") {
+                    scheduleList[selectedDay]!.removeAt(index);
+                  }
+                  else {
+                    setState(() {
+                      scheduleList[selectedDay]!.fillRange(index, index+1, modifySchedule);
+                    });
+                  }
               },
               child: Container(
                 child: Row(
