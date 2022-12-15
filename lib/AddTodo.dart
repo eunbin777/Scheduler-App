@@ -58,73 +58,13 @@ class _AddTodo extends State<AddTodo> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 15 * ffem, 44 * fem, 29 * fem),
-              width: 260 * fem,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 공유
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0 * fem, 15 * ffem, 44 * fem, 5 * fem),
-                    width: double.infinity,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 8 * fem),
-                          width: 18 * fem,
-                          height: 18 * fem,
-                          child: Image.asset(
-                            "images/user.png",
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(5 * fem, 0 * fem, 0 * fem, 1 * fem),
-                          child: Text(
-                            '공유',
-                            style: GoogleFonts.lato(
-                              fontSize: 11 * fem,
-                              fontWeight: FontWeight.w500,
-                              height: 1.2125 * ffem / fem,
-                              color: Color(0xb2000000),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(22 * fem, 0 * fem, 0 * fem, 25 * fem),
-                    padding: EdgeInsets.fromLTRB(12 * fem, 5 * fem, 9.94 * fem, 5 * fem),
-                    width: 200 * fem,
-                    decoration: BoxDecoration (
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10 * fem),
-                    ),
-                    child: TextField(
-                      controller: sharingUserController,
-                      decoration: InputDecoration(
-                        hintText: '공유할 사용자의 이메일을 입력해주세요.',
-                        hintStyle: GoogleFonts.lato(
-                          fontSize: 8 * ffem,
-                          fontWeight: FontWeight.w400,
-                          height: 1.2125 * ffem / fem,
-                        ), 
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => 
           // if(sharingUser != null && alarm != null)
-        Navigator.pop(context, Todo(task, false, date)),
+        Navigator.pop(context, Todo(task, false)),
         label: Text("+"),
       ),
     );

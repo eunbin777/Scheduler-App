@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, annotate_overrides, library_private_types_in_public_api, prefer_const_constructors, unused_local_variable, avoid_unnecessary_containers, unnecessary_string_interpolations, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +7,7 @@ import 'package:term_project/AddSchedule.dart';
 import 'package:term_project/AddTodo.dart';
 import 'package:term_project/AppDrawer.dart';
 import 'package:term_project/ModifyScheduleForm.dart';
+import 'package:term_project/ModifyTodoForm.dart';
 import 'package:term_project/Schedule.dart';
 import 'package:term_project/Todo.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -189,7 +189,25 @@ class _Calendar extends State<Calendar> {
             ),
           ),
           ..._getTodosForDay(selectedDay).map((Todo t) => ListTile(
-            title: Container(
+            title: InkWell(
+              onTap: () async {
+                final modifyTodo = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ModifyTodoForm(selectedDay)
+                  )
+                );
+                int index = todoList[selectedDay]!.indexOf(t);
+
+                if(modifyTodo.task == "null") {
+                    todoList[selectedDay]!.removeAt(index);
+                  }
+                  else {
+                    setState(() {
+                      todoList[selectedDay]!.fillRange(index, index+1, modifyTodo);
+                    });
+                  }
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:term_project/Schedule.dart';
-import 'package:term_project/Todo.dart';
-import 'package:term_project/Calendar.dart';
 
 class ModifyScheduleForm extends StatefulWidget {
   final DateTime selectedDay;
