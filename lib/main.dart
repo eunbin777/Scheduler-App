@@ -1,52 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'; 
-import 'package:term_project/FirstPage.dart';
+import 'package:Scheduler/user/FirstPage.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'user/firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('ko', 'KR'),
-      ],
-      title: 'Scheduler App',
-      theme: ThemeData(primarySwatch: Colors.grey),
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  _HomePage createState() => _HomePage();
-}
-
-class _HomePage extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp (
+      title: 'Scheduler',
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: Scaffold(
-        body: Center(
-          child: FirstPage(),
-        ),
-      ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ko', 'KR'),
+      ],
+      home: const FirstPage(),
     );
   }
 }
-

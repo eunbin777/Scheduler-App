@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:term_project/Todo.dart';
-import 'package:intl/intl.dart';
+import 'package:Scheduler/todo/Todo.dart';
 
 class AddTodo extends StatefulWidget {
   final DateTime selectedDay;

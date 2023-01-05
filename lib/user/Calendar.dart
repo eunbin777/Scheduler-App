@@ -1,33 +1,28 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, annotate_overrides, library_private_types_in_public_api, prefer_const_constructors, unused_local_variable, avoid_unnecessary_containers, unnecessary_string_interpolations, use_build_context_synchronously
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:term_project/AddSchedule.dart';
-import 'package:term_project/AddTodo.dart';
-import 'package:term_project/AppDrawer.dart';
-import 'package:term_project/ModifyScheduleForm.dart';
-import 'package:term_project/ModifyTodoForm.dart';
-import 'package:term_project/Schedule.dart';
-import 'package:term_project/Todo.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Scheduler/schedule/AddSchedule.dart';
+import 'package:Scheduler/todo/AddTodo.dart';
+import 'package:Scheduler/user/AppDrawer.dart';
+import 'package:Scheduler/schedule/ModifyScheduleForm.dart';
+import 'package:Scheduler/todo/ModifyTodoForm.dart';
+import 'package:Scheduler/schedule/Schedule.dart';
+import 'package:Scheduler/todo/Todo.dart';
 
 
 class Calendar extends StatefulWidget {
   final String id;
 
+  const Calendar(this.id, {Key? key}) : super(key: key);
 
-  Calendar(@required this.id, {Key? key}) : super(key: key);
-
-
+  @override
   _Calendar createState() => _Calendar();
 }
 
 class _Calendar extends State<Calendar> {  
   Map<DateTime, List<Schedule>> scheduleList = {};
   Map<DateTime, List<Todo>> todoList = {};
-
-  // Schedule? showSchedule;
 
   CalendarFormat format = CalendarFormat.month;
 
