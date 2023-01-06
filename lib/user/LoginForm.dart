@@ -98,13 +98,11 @@ class LoginFormState extends State<LoginForm> {
                       );
                     }
                     on FirebaseAuthException catch (e) {
-                      if (e.code == 'user-not-found') {
+                      if (e.code == 'user-not-found') 
                         print('No user found for that email.');
-                        
-                      }
-                      else if (e.code == 'wrong-password') {
+                      else if (e.code == 'wrong-password')
                         print('Wrong password provided for that user.');
-                      }
+
                     }
 
                     navigator.push(
@@ -152,6 +150,7 @@ class LoginFormState extends State<LoginForm> {
                     // Once signed in, return the UserCredential
                     final authResult = await FirebaseAuth.instance.signInWithCredential(credential);
                     final email = authResult.user?.email;
+                    
                     // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
@@ -166,18 +165,28 @@ class LoginFormState extends State<LoginForm> {
                     ),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )
-                  ),
-                  child: Center(
-                    child: Text(
-                      '구글로 로그인',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
                     ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'images/google_logo.png',
+                        width: 25.0,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '구글로 로그인',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lato(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
