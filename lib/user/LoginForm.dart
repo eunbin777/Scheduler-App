@@ -23,6 +23,37 @@ class LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
+  void loginFailedDlg(String error) {
+    String message = '';
+
+    switch(error) {
+      case 'user-not-found':
+        message = '사용자를 찾을 수 없습니다.';
+        break;
+      case 'wrong-password':
+        message = '비밀번호가 올바르지 않습니다.';
+        break;
+    }
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('로그인 실패'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('확인'),
+              )
+            ],
+          );
+        }
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -42,7 +73,8 @@ class LoginFormState extends State<LoginForm> {
                 style: GoogleFonts.lato(
                     fontSize: 23.0,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black),
+                    color: Colors.black
+                ),
               ),
             ),
             Center(
@@ -96,18 +128,20 @@ class LoginFormState extends State<LoginForm> {
                         email: email,
                         password: password
                       );
+
+                      navigator.push(
+                        MaterialPageRoute(
+                          builder: (_) => Calendar(email)
+                        )
+                      );
                     }
                     on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') 
                         print('No user found for that email.');
                       else if (e.code == 'wrong-password')
                         print('Wrong password provided for that user.');
-
+                      loginFailedDlg(e.code);
                     }
-
-                    navigator.push(
-                      MaterialPageRoute(builder: (_) => Calendar(email))
-                    );
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.black,
