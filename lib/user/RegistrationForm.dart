@@ -4,163 +4,198 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Scheduler/user/LoginForm.dart';
 
 class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({super.key});
+
   @override
-  _RegistrationForm createState() => _RegistrationForm();
+  RegistrationFormState createState() => RegistrationFormState();
 }
 
-class _RegistrationForm extends State<RegistrationForm> {
+class RegistrationFormState extends State<RegistrationForm> {
   final _authentication = FirebaseAuth.instance;
-  final emailController_r = TextEditingController();  // TextField 값 접근: emailController.text
-  final passwordController_r = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   final checkPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController_r.dispose();
-    passwordController_r.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    checkPasswordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 375;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
+    final Size screenSize = MediaQuery.of(context).size;
+    final double width = screenSize.width;
+    final double height = screenSize.height;
+
+    void registrationFailedDlg(String error) {
+      String message = '';
+
+      switch(error) {
+        case 'password-mismatch':
+          message = '비밀번호가 일치하지 않습니다.';
+          break;
+        case 'weak-password':
+          message = '비밀번호가 유효하지 않습니다.';
+          break;
+        case 'email-already-in-use':
+          message = '이미 존재하는 이메일입니다.';
+          break;
+      }
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('회원가입 실패'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('확인'),
+              )
+            ],
+          );
+        }
+      );
+    }
 
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.fromLTRB(40 * fem, 150 * fem, 40 * fem, 260 * fem),
-        width: double.infinity,
-        decoration: BoxDecoration (
-          color: Color(0xffffffff),
-        ),
-        child:  
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child:  
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 27.5 * fem),
-                    child:  
-                      Text(
-                        '회원가입',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.lato(
-                          fontSize: 20 * ffem,
-                          fontWeight: FontWeight.w400,
-                          height: 1.2125 * ffem / fem,
-                          color: Color(0xff000000),
-                        ),
-                      ),
-                  ), 
-              ),
-              Container(
-                width: double.infinity,
-                child:  
-                  TextField(
-                    controller: emailController_r,
-                    decoration: InputDecoration(
-                      labelText: '이메일',
-                      labelStyle: GoogleFonts.lato(
-                        fontSize: 15 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2125 * ffem / fem,
-                      ),
-                    ),
-                  ),
-              ),
-              Container(
-                width: double.infinity,
-                child:  
-                  TextField(
-                    controller: passwordController_r,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: '비밀번호',
-                      labelStyle: GoogleFonts.lato(
-                        fontSize: 15 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2125 * ffem / fem,
-                      ),
-                    ),
-                  ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 40 * fem),
-                width: double.infinity,
-                child:  
-                  TextField(
-                    controller: checkPasswordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: '비밀번호 확인',
-                      labelStyle: GoogleFonts.lato(
-                        fontSize: 15 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2125 * ffem / fem,
-                      ),
-                    ),
-                  ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 20 * fem),
-                width: double.infinity,
-                height: 40 * fem,
-                child: OutlinedButton(
-                  onPressed: () async{
-                    print("Button pressed");
-                    try {
-                      String email = emailController_r.text;
-                      String password = passwordController_r.text;
-                      final newUser = await _authentication.createUserWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      );
-                      // newUser.user?.updateDisplayName(email);
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'weak-password') {
-                        print('The password provided is too weak.');
-                      } else if (e.code == 'email-already-in-use') {
-                        print('The account already exists for that email.');
-                      }
-                    } catch (e) {
-                      print(e);
-                    }
-                    // login
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginForm()),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: Color(0xff000000),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))
-                    ),
-                  ),
-                  child:  
-                    Center(
-                      child:  
-                        Center(
-                          child:  
-                            Text(
-                              '가입',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.lato (
-                                fontSize: 16 * ffem,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2125 * ffem / fem,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                        ),
-                    ),
+        padding: EdgeInsets.only(top: height * 0.23),
+        child: Column(
+          children: [
+            Center(
+              child: Text(
+                '회원가입',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                  fontSize: 23.0,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black
                 ),
               ),
-            ],
-          ),
+            ),
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 0.07 * height),
+                width: 0.73 * width,
+                height: 43.0,
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: '이메일',
+                    labelStyle: GoogleFonts.lato(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 0.02 * height),
+                width: 0.73 * width,
+                height: 43.0,
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: '비밀번호',
+                    labelStyle: GoogleFonts.lato(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 0.02 * height),
+                width: 0.73 * width,
+                height: 43.0,
+                child: TextField(
+                  controller: checkPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: '비밀번호 확인',
+                    labelStyle: GoogleFonts.lato(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 0.07 * height),
+                width: 0.73 * width,
+                height: 43.0,
+                child: OutlinedButton(
+                  onPressed: () async {
+                    final String email = emailController.text;
+                    final String password = passwordController.text;
+                    final String checkPassword = checkPasswordController.text;
+                    final navigator = Navigator.of(context);
+
+                    try {
+                      if(password == checkPassword) {
+                        await _authentication.createUserWithEmailAndPassword(
+                          email: email,
+                          password: password
+                        );
+                        navigator.push(
+                          MaterialPageRoute(
+                            builder: (_) => const LoginForm(),
+                          )
+                        );
+                      }
+                      else {
+                        print("Registration failed.");
+                        registrationFailedDlg('password-mismatch');
+                      }
+                    }
+                    on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        print('The password provided is too weak.');
+                        registrationFailedDlg('weak-password');
+                      }
+                      else if (e.code == 'email-already-in-use') {
+                        print('The account already exists for that email.');
+                        registrationFailedDlg('email-already-in-use');
+                      }
+                    }
+                  },
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )
+                  ),
+                  child: Center(
+                    child: Text(
+                      '가입하기',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.lato(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       )
     );
   }
