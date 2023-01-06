@@ -159,19 +159,17 @@ class RegistrationFormState extends State<RegistrationForm> {
                         );
                       }
                       else {
-                        print("Registration failed.");
                         registrationFailedDlg('password-mismatch');
                       }
                     }
                     on FirebaseAuthException catch (e) {
-                      if (e.code == 'weak-password') {
+                      if (e.code == 'weak-password') 
                         print('The password provided is too weak.');
-                        registrationFailedDlg('weak-password');
-                      }
-                      else if (e.code == 'email-already-in-use') {
+                      
+                      else if (e.code == 'email-already-in-use') 
                         print('The account already exists for that email.');
-                        registrationFailedDlg('email-already-in-use');
-                      }
+                      
+                      registrationFailedDlg(e.code);
                     }
                   },
                   style: OutlinedButton.styleFrom(
