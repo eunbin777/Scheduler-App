@@ -64,6 +64,31 @@ class RegistrationFormState extends State<RegistrationForm> {
       );
     }
 
+    void registrationSuccessDlg() {
+      final navigator = Navigator.of(context);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('회원가입 성공'),
+            content: const Text('가입이 완료되었습니다.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  navigator.push(
+                    MaterialPageRoute(
+                      builder: (_) => const LoginForm(),
+                    )
+                  );
+                },
+                child: const Text('확인'),
+              )
+            ],
+          );
+        }
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -144,7 +169,6 @@ class RegistrationFormState extends State<RegistrationForm> {
                     final String email = emailController.text;
                     final String password = passwordController.text;
                     final String checkPassword = checkPasswordController.text;
-                    final navigator = Navigator.of(context);
 
                     try {
                       if(password == checkPassword) {
@@ -152,11 +176,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                           email: email,
                           password: password
                         );
-                        navigator.push(
-                          MaterialPageRoute(
-                            builder: (_) => const LoginForm(),
-                          )
-                        );
+                        registrationSuccessDlg();
                       }
                       else {
                         registrationFailedDlg('password-mismatch');
