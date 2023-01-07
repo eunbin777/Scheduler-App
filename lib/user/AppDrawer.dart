@@ -21,7 +21,7 @@ class AppDrawer extends StatelessWidget {
               accountName: const Text(''),
               accountEmail: Text(email),
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: Colors.grey[200],
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20.0),
                   bottomRight: Radius.circular(20.0)

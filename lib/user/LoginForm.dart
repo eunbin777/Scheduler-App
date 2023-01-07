@@ -56,6 +56,7 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final navigator = Navigator.of(context);
     final Size screenSize = MediaQuery.of(context).size;
     final double width = screenSize.width;
     final double height = screenSize.height;
@@ -121,7 +122,6 @@ class LoginFormState extends State<LoginForm> {
                   onPressed: () async {
                     final String email = emailController.text;
                     final String password = passwordController.text;
-                    final navigator = Navigator.of(context);
 
                     try {
                       await _authentication.signInWithEmailAndPassword(
@@ -184,10 +184,8 @@ class LoginFormState extends State<LoginForm> {
                     // Once signed in, return the UserCredential
                     final authResult = await FirebaseAuth.instance.signInWithCredential(credential);
                     final email = authResult.user?.email;
-                    
-                    // ignore: use_build_context_synchronously
-                    Navigator.push(
-                      context,
+
+                    navigator.push(
                       MaterialPageRoute(
                         builder: (context) => View(email!)
                       )
@@ -204,12 +202,14 @@ class LoginFormState extends State<LoginForm> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'images/google_logo.png',
-                        width: 25.0,
-                      ),
-                      const SizedBox(
-                        width: 10,
+                      Container(
+                        margin: const EdgeInsets.only(
+                          right: 8.0,
+                        ),
+                        child: Image.asset(
+                          'images/google_logo.png',
+                          width: 25.0,
+                        ),
                       ),
                       Text(
                         '구글로 로그인',
