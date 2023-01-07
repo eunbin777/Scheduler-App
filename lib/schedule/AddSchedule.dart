@@ -7,7 +7,7 @@ import 'package:Scheduler/schedule/Schedule.dart';
 class AddSchedule extends StatefulWidget {
   final DateTime selectedDay;
 
-  AddSchedule(@required this.selectedDay, {Key? key}) : super(key : key);
+  const AddSchedule(this.selectedDay, {Key? key}) : super(key : key);
 
   _AddSchedule createState() => _AddSchedule();
 }

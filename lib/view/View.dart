@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:Scheduler/calendar/ChangeViewBtn.dart';
-import 'package:Scheduler/calendar/ShowUser.dart';
-import 'package:Scheduler/calendar/MonthlyView.dart';
-import 'package:Scheduler/user/AppDrawer.dart';
+import 'package:Scheduler/schedule/Schedule.dart';
+import 'package:Scheduler/todo/Todo.dart';
+import 'package:Scheduler/view/ShowUser.dart';
+import 'package:Scheduler/view/Calendar.dart';
+import 'package:Scheduler/view/AppDrawer.dart';
 
 class View extends StatefulWidget {
   final String email;
+  final String viewType;
 
-  const View(this.email, {Key? key}) : super(key: key);
+  const View(this.email, this.viewType, {Key? key}) : super(key: key);
 
   @override
   ViewState createState() => ViewState();
@@ -46,6 +48,8 @@ class ViewState extends State<View> {
     final double width = screenSize.width;
     final double height = screenSize.height;
 
+    String viewType = widget.viewType;
+
     // String weekday = DateFormat('E', 'ko').format(selectedDay);
 
     return Scaffold(
@@ -63,15 +67,10 @@ class ViewState extends State<View> {
             margin: const EdgeInsets.only(
               bottom: 15.0,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ShowUser(user),
-                const ChangeViewBtn('주'),
-              ],
-            ),
+            child: ShowUser(user)
           ),
-          const MonthlyView(),
+          const Calendar(),
+
         ]
       )
     );

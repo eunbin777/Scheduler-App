@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class MonthlyView extends StatefulWidget {
-  const MonthlyView({super.key});
+class Calendar extends StatefulWidget {
+  const Calendar({super.key});
 
   @override
-  MonthlyViewState createState() => MonthlyViewState();
+  CalendarState createState() => CalendarState();
 }
 
-class MonthlyViewState extends State<MonthlyView> {
+class CalendarState extends State<Calendar> {
   DateTime focusedDay = DateTime.now();
 
   DateTime selectedDay = DateTime(
@@ -17,6 +17,8 @@ class MonthlyViewState extends State<MonthlyView> {
     DateTime.now().day,
     DateTime.now().weekday,
   ); 
+
+  CalendarFormat calendarFormat = CalendarFormat.month;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,17 @@ class MonthlyViewState extends State<MonthlyView> {
           focusedDay: focusedDay,
           firstDay: DateTime(1990, 1, 1),
           lastDay: DateTime(2030, 12, 31),
+          calendarFormat: calendarFormat,
+          availableCalendarFormats: const {
+            CalendarFormat.month: '월  ▼',
+            CalendarFormat.twoWeeks: '2주  ▼',
+            CalendarFormat.week: '1주  ▼',
+          },
+          onFormatChanged: (format) {
+            setState(() {
+              calendarFormat = format;
+            });
+          },
           onDaySelected: (selectedDay, focusedDay) {
             setState(() {
               this.selectedDay = selectedDay;
@@ -66,8 +79,8 @@ class MonthlyViewState extends State<MonthlyView> {
             },
           ),
           headerStyle: const HeaderStyle(
-            formatButtonVisible: false,
-            titleCentered: true,
+            formatButtonVisible: true,
+            titleCentered: false,
             titleTextStyle: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,

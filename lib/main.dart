@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'; 
-import 'package:Scheduler/user/FirstPage.dart';
+import 'package:Scheduler/userInfo/FirstPage.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'user/firebase_options.dart';
+import 'userInfo/firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

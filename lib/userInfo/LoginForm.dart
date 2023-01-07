@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:Scheduler/user/View.dart';
+import 'package:Scheduler/view/View.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -128,10 +128,10 @@ class LoginFormState extends State<LoginForm> {
                         email: email,
                         password: password
                       );
-
+                      
                       navigator.push(
                         MaterialPageRoute(
-                          builder: (_) => View(email)
+                          builder: (_) => View(email, '주')
                         )
                       );
                     }
@@ -187,7 +187,7 @@ class LoginFormState extends State<LoginForm> {
 
                     navigator.push(
                       MaterialPageRoute(
-                        builder: (context) => View(email!)
+                        builder: (context) => View(email!, '주')
                       )
                     );
                   },

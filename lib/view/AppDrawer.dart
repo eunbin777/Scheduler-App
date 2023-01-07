@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:Scheduler/user/FirstPage.dart';
+import 'package:Scheduler/userInfo/FirstPage.dart';
 
 class AppDrawer extends StatelessWidget {
   final String email;
