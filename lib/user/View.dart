@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:Scheduler/calendar/ChangeViewBtn.dart';
+import 'package:Scheduler/calendar/ShowUser.dart';
 import 'package:Scheduler/calendar/MonthlyView.dart';
-import 'package:Scheduler/schedule/Schedule.dart';
-import 'package:Scheduler/todo/Todo.dart';
 import 'package:Scheduler/user/AppDrawer.dart';
-
 
 class View extends StatefulWidget {
   final String email;
@@ -66,30 +64,13 @@ class ViewState extends State<View> {
               bottom: 15.0,
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                    right: 20.0,
-                  ),
-                  child: const CircleAvatar(
-                    backgroundImage: AssetImage('images/user.png'),
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-                Text(
-                  user
-                ),
+                ShowUser(user),
+                const ChangeViewBtn('주'),
               ],
             ),
           ),
-          // Row(
-          //   children: [
-          //     CircleAvatar(
-          //       backgroundImage: AssetImage('images/user.png'),
-          //       backgroundColor: Colors.white,
-          //     ),
-          //   ],
-          // ),
           const MonthlyView(),
         ]
       )

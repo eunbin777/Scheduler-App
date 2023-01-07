@@ -27,7 +27,7 @@ class MonthlyViewState extends State<MonthlyView> {
     return Center(
       child: Container(
         width: 0.9 * width,
-        height: 0.45 * height,
+        padding: EdgeInsets.only(bottom: 0.01 * height),
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.black,
@@ -53,7 +53,7 @@ class MonthlyViewState extends State<MonthlyView> {
           daysOfWeekHeight: 20.0,
           calendarBuilders: CalendarBuilders(
             dowBuilder: (context, day) {
-              if (day.weekday == 7) {
+              if (day.weekday == DateTime.sunday) {
                 return const Center(
                   child: Text(
                     '일',
@@ -68,18 +68,30 @@ class MonthlyViewState extends State<MonthlyView> {
           headerStyle: const HeaderStyle(
             formatButtonVisible: false,
             titleCentered: true,
+            titleTextStyle: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          calendarStyle: CalendarStyle(
+          calendarStyle: const CalendarStyle(
             isTodayHighlighted: true,
-            todayTextStyle: const TextStyle(
+            todayTextStyle: TextStyle(
               color: Colors.black,
+              fontWeight: FontWeight.bold,
             ),
             todayDecoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.black,
-                width: 1.5,
-              )
+              color: Color(0xffe8e8e8),
+            ),
+            selectedTextStyle: TextStyle(
+              color: Colors.black,
+            ),
+            selectedDecoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xffdcdcdc),
+            ),
+            holidayTextStyle: TextStyle(
+              color: Colors.red,
             ),
           ),
         ),
