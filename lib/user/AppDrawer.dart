@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:Scheduler/user/LoginForm.dart';
+import 'package:Scheduler/user/FirstPage.dart';
 
 class AppDrawer extends StatelessWidget {
   final String email;
@@ -24,7 +24,7 @@ class AppDrawer extends StatelessWidget {
                 color: Colors.grey[300],
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20.0),
-                  bottomRight: Radius.circular(40.0)
+                  bottomRight: Radius.circular(20.0)
                 )
               ),
           ),
@@ -59,7 +59,7 @@ class AppDrawer extends StatelessWidget {
               }
               navigator.push(
                 MaterialPageRoute(
-                  builder: (context) => const LoginForm()
+                  builder: (context) => const FirstPage(),
                 ),
               );
             },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:Scheduler/user/Calendar.dart';
+import 'package:Scheduler/user/View.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -36,22 +36,22 @@ class LoginFormState extends State<LoginForm> {
     }
 
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('로그인 실패'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('확인'),
-              )
-            ],
-          );
-        }
-      );
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('로그인 실패'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('확인'),
+            )
+          ],
+        );
+      }
+    );
   }
 
   @override
@@ -131,7 +131,7 @@ class LoginFormState extends State<LoginForm> {
 
                       navigator.push(
                         MaterialPageRoute(
-                          builder: (_) => Calendar(email)
+                          builder: (_) => View(email)
                         )
                       );
                     }
@@ -189,7 +189,7 @@ class LoginFormState extends State<LoginForm> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Calendar(email!)
+                        builder: (context) => View(email!)
                       )
                     );
                   },
