@@ -85,11 +85,9 @@ class AddItemButtonState extends State<AddItemButton> {
           ),
         ),
         backgroundColor: Colors.black,
-        label: const Text(
-          '+',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+        label: const Icon(
+          Icons.add,
+          color: Colors.white,
         ),
     );
   }
