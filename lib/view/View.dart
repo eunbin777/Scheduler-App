@@ -1,3 +1,4 @@
+import 'package:Scheduler/view/AddItemButton.dart';
 import 'package:flutter/material.dart';
 import 'package:Scheduler/schedule/Schedule.dart';
 import 'package:Scheduler/todo/Todo.dart';
@@ -48,8 +49,6 @@ class ViewState extends State<View> {
     final double width = screenSize.width;
     final double height = screenSize.height;
 
-    String viewType = widget.viewType;
-
     // String weekday = DateFormat('E', 'ko').format(selectedDay);
 
     return Scaffold(
@@ -70,9 +69,20 @@ class ViewState extends State<View> {
             child: ShowUser(user)
           ),
           const Calendar(),
-
+          ////구분선//////
+          // Container(
+          //   margin: EdgeInsets.only(
+          //     top: 0.03 * height
+          //   ),
+          //   child: const Divider(
+          //     thickness: 1.0,
+          //     height: 1.0,
+          //     color: Colors.grey,
+          //   )
+          // ),
         ]
-      )
+      ),
+      floatingActionButton: const AddItemButton(),
     );
   }
 }

@@ -44,9 +44,9 @@ class CalendarState extends State<Calendar> {
           lastDay: DateTime(2030, 12, 31),
           calendarFormat: calendarFormat,
           availableCalendarFormats: const {
-            CalendarFormat.month: '월  ▼',
-            CalendarFormat.twoWeeks: '2주  ▼',
-            CalendarFormat.week: '1주  ▼',
+            CalendarFormat.month: '월',
+            CalendarFormat.twoWeeks: '2주',
+            CalendarFormat.week: '1주',
           },
           onFormatChanged: (format) {
             setState(() {
@@ -64,20 +64,6 @@ class CalendarState extends State<Calendar> {
             return isSameDay(selectedDay, day);
           },
           daysOfWeekHeight: 20.0,
-          calendarBuilders: CalendarBuilders(
-            dowBuilder: (context, day) {
-              if (day.weekday == DateTime.sunday) {
-                return const Center(
-                  child: Text(
-                    '일',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
           headerStyle: const HeaderStyle(
             formatButtonVisible: true,
             titleCentered: false,
@@ -90,7 +76,6 @@ class CalendarState extends State<Calendar> {
             isTodayHighlighted: true,
             todayTextStyle: TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.bold,
             ),
             todayDecoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -98,6 +83,7 @@ class CalendarState extends State<Calendar> {
             ),
             selectedTextStyle: TextStyle(
               color: Colors.black,
+              fontWeight: FontWeight.bold,
             ),
             selectedDecoration: BoxDecoration(
               shape: BoxShape.circle,
