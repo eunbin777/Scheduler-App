@@ -13,8 +13,11 @@ class AddSchedule extends StatefulWidget {
 }
 
 class AddScheduleState extends State<AddSchedule> {
-  final titleController = TextEditingController(); // title
-  final sharingUserController = TextEditingController(); // userEmail
+  final titleController = TextEditingController();
+  final sharingUserController = TextEditingController();
+
+  String? weekday;
+  String? today;
 
   String? sHour, sMin, eHour, eMin, notificationTime, nHour, nMin;
   String startTime = '00 : 00';
@@ -36,9 +39,6 @@ class AddScheduleState extends State<AddSchedule> {
     String title = titleController.text;
     String? sharingUser = sharingUserController.text;
 
-    String weekday = DateFormat('E', 'ko').format(widget.selectedDay); // weekday
-    String today = DateFormat('yyyy년 MM월 dd일 ').format(widget.selectedDay); // today
-
     TimeOfDay currentTime = TimeOfDay.now();
 
     return Scaffold(
@@ -51,7 +51,7 @@ class AddScheduleState extends State<AddSchedule> {
       body: Center(
         child: Container(
           width: 0.8 * width,
-          margin: const EdgeInsets.only(top: 30.0,),
+          margin: const EdgeInsets.only(top: 30.0),
           child: Column(
             children: [
               Container(
@@ -71,13 +71,13 @@ class AddScheduleState extends State<AddSchedule> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(bottom: 30.0),
+                margin: const EdgeInsets.only(bottom: 50.0),
                 child: Column(
                   children: [
                     Row(
                       children: [
                         Container(
-                          margin: const EdgeInsets.only(right: 10.0,),
+                          margin: const EdgeInsets.only(right: 10.0),
                           child: const Icon(
                             Icons.calendar_month,
                             color: Colors.black,
@@ -96,21 +96,44 @@ class AddScheduleState extends State<AddSchedule> {
                     Row(
                       children: [
                         Container(
-                          width: 135.0,
                           height: 25.0,
                           margin: const EdgeInsets.fromLTRB(35.0, 10.0, 0.0, 5.0),
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: const Color(0xffd9d9d9),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            '$today $weekday요일',
-                            style: GoogleFonts.lato(
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                )
+                              ),
+                              backgroundColor: MaterialStateProperty.all(
+                                const Color(0xffd9d9d9)
+                              ),
                             ),
+                            child: Text(
+                              (today == null)?
+                              '${DateFormat('yyyy년 MM월 dd일').format(widget.selectedDay).toString()} ${DateFormat('E', 'ko').format(widget.selectedDay)}요일'
+                              : '$today $weekday요일',
+                              style: GoogleFonts.lato(
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onPressed: () {
+                              Future<DateTime?> selectedDay = showDatePicker(
+                                context: context,
+                                initialDate: widget.selectedDay,
+                                firstDate: DateTime(1990),
+                                lastDate: DateTime(2030),
+                              );
+                              selectedDay.then((date) {
+                                setState(() {
+                                  today = DateFormat('yyyy년 MM월 dd일').format(date!).toString();
+                                  weekday = DateFormat('E', 'ko').format(date);
+                                });
+                              });
+                            },
                           ),
                         ),
                       ]
@@ -225,7 +248,7 @@ class AddScheduleState extends State<AddSchedule> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(bottom: 30.0),
+                margin: const EdgeInsets.only(bottom: 50.0),
                 child: Column(
                   children: [
                     Row(

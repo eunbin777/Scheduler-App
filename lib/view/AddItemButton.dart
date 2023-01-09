@@ -5,7 +5,9 @@ import 'package:Scheduler/todo/Todo.dart';
 import 'package:Scheduler/todo/AddTodo.dart';
 
 class AddItemButton extends StatefulWidget {
-  const AddItemButton({super.key});
+  final DateTime selectedDay;
+  
+  const AddItemButton(this.selectedDay, {Key? key}) : super(key: key);
 
   @override
   AddItemButtonState createState() => AddItemButtonState();
@@ -15,16 +17,11 @@ class AddItemButtonState extends State<AddItemButton> {
   Map<DateTime, List<Schedule>> scheduleList = {};
   Map<DateTime, List<Todo>> todoList = {};
 
-  DateTime selectedDay = DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-    DateTime.now().weekday,
-  ); 
-
   @override
   Widget build(BuildContext context) {
     final navigator = Navigator.of(context);
+
+    DateTime selectedDay = widget.selectedDay; 
 
     return FloatingActionButton.extended(
         onPressed: () => showDialog(
