@@ -16,6 +16,8 @@ class AddScheduleState extends State<AddSchedule> {
   final titleController = TextEditingController();
   final sharingUserController = TextEditingController();
 
+  DateTime? selectedDate;
+
   String? weekday;
   String? today;
 
@@ -128,6 +130,7 @@ class AddScheduleState extends State<AddSchedule> {
                                 lastDate: DateTime(2030),
                               );
                               selectedDay.then((date) {
+                                selectedDate = date;
                                 setState(() {
                                   today = DateFormat('yyyy년 MM월 dd일').format(date!).toString();
                                   weekday = DateFormat('E', 'ko').format(date);
@@ -273,7 +276,7 @@ class AddScheduleState extends State<AddSchedule> {
                     SizedBox(
                       width: 300.0,
                       child: TextField(
-                        controller: titleController,
+                        controller: sharingUserController,
                         decoration: InputDecoration(
                           hintText: '공유할 사용자의 이메일',
                           hintStyle: GoogleFonts.lato(
@@ -362,7 +365,8 @@ class AddScheduleState extends State<AddSchedule> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => navigator.pop(
-            Schedule(title, startTime, endTime, sharingUser, notificationTime)
+          // {"selectedDay": selectedDate, "schedule": Schedule(title, startTime, endTime, sharingUser, notificationTime)}
+          Schedule(title, startTime, endTime, sharingUser, notificationTime)
         ),
         backgroundColor: Colors.black,
         label: const Icon(
