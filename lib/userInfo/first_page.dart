@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:Scheduler/userInfo/LoginForm.dart';
-import 'package:Scheduler/userInfo/RegistrationForm.dart';
+import 'package:Scheduler/userInfo/login_form.dart';
+import 'package:Scheduler/userInfo/registration_form.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({super.key});

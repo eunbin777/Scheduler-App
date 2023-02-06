@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:Scheduler/schedule/Schedule.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:Scheduler/schedule/schedule.dart';
 
-class AddSchedule extends StatefulWidget {
+class ModifyScheduleForm extends StatefulWidget {
   final DateTime selectedDay;
 
-  const AddSchedule(this.selectedDay, {Key? key}) : super(key: key);
-
-  @override
-  AddScheduleState createState() => AddScheduleState();
+  const ModifyScheduleForm(this.selectedDay, {Key? key}) : super(key : key);
+  
+  ModifyScheduleFormState createState() => ModifyScheduleFormState();
 }
 
-class AddScheduleState extends State<AddSchedule> {
+class ModifyScheduleFormState extends State<ModifyScheduleForm> {
   final titleController = TextEditingController();
   final sharingUserController = TextEditingController();
 
@@ -353,8 +352,33 @@ class AddScheduleState extends State<AddSchedule> {
                             ),
                           ),
                         ),
-                        
                       ],
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  navigator.pop(
+                    Schedule("null", "null", "null", "null", "null")
+                  );
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 10.0),
+                      child: const Icon(
+                        Icons.delete_forever_outlined,
+                        color: Colors.black,
+                        size: 25.0,
+                      ),
+                    ),
+                    const Text(
+                      '삭제',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
@@ -363,10 +387,10 @@ class AddScheduleState extends State<AddSchedule> {
           ),
         ),
       ),
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => navigator.pop(
-          // {"selectedDay": selectedDate, "schedule": Schedule(title, startTime, endTime, sharingUser, notificationTime)}
-          Schedule(title, startTime, endTime, sharingUser, notificationTime)
+          {"selectedDay": selectedDate, "schedule": Schedule(title, startTime, endTime, sharingUser, notificationTime)}
         ),
         backgroundColor: Colors.black,
         label: const Icon(

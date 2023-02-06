@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:Scheduler/todo/Todo.dart';
+import 'package:Scheduler/schedule/schedule.dart';
 
-class AddTodo extends StatefulWidget {
+class AddSchedule extends StatefulWidget {
   final DateTime selectedDay;
 
-  const AddTodo(this.selectedDay, {Key? key}) : super(key : key);
+  const AddSchedule(this.selectedDay, {Key? key}) : super(key: key);
 
   @override
-  AddTodoState createState() => AddTodoState();
+  AddScheduleState createState() => AddScheduleState();
 }
 
-class AddTodoState extends State<AddTodo> {
-  final taskController = TextEditingController();
+class AddScheduleState extends State<AddSchedule> {
+  final titleController = TextEditingController();
   final sharingUserController = TextEditingController();
+
+  DateTime? selectedDate;
 
   String? weekday;
   String? today;
 
-  String? notificationTime, nHour, nMin;
-
-  TimeOfDay currentTime = TimeOfDay.now();
+  String? sHour, sMin, eHour, eMin, notificationTime, nHour, nMin;
+  String startTime = '00 : 00';
+  String endTime = '00 : 00';
 
   @override
   void dispose() {
-    taskController.dispose();
+    titleController.dispose();
     sharingUserController.dispose();
     super.dispose();
   }
@@ -36,11 +38,13 @@ class AddTodoState extends State<AddTodo> {
     final double width = screenSize.width;
     final navigator = Navigator.of(context);
 
-    DateTime selectedDay = widget.selectedDay;
-    String task = taskController.text;
+    String title = titleController.text;
+    String? sharingUser = sharingUserController.text;
+
+    TimeOfDay currentTime = TimeOfDay.now();
 
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -57,7 +61,7 @@ class AddTodoState extends State<AddTodo> {
                   bottom: 50.0
                 ),
                 child: TextField(
-                  controller: taskController,
+                  controller: titleController,
                   decoration: InputDecoration(
                     hintText: '제목',
                     hintStyle: GoogleFonts.lato(
@@ -83,7 +87,7 @@ class AddTodoState extends State<AddTodo> {
                           ),
                         ),
                         const Text(
-                          '날짜',
+                          '날짜 / 시간',
                           style: TextStyle(
                             fontSize: 15.0,
                             fontWeight: FontWeight.w500,
@@ -126,6 +130,7 @@ class AddTodoState extends State<AddTodo> {
                                 lastDate: DateTime(2030),
                               );
                               selectedDay.then((date) {
+                                selectedDate = date;
                                 setState(() {
                                   today = DateFormat('yyyy년 MM월 dd일').format(date!).toString();
                                   weekday = DateFormat('E', 'ko').format(date);
@@ -135,6 +140,152 @@ class AddTodoState extends State<AddTodo> {
                           ),
                         ),
                       ]
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(
+                            left: 35.0
+                          ),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                )
+                              ),
+                              backgroundColor: MaterialStateProperty.all(
+                                const Color(0xffd9d9d9)
+                              ),
+                            ),
+                            child: Text(
+                              startTime,
+                              style: GoogleFonts.lato(
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                            // startTime
+                            onPressed: () {
+                              Future<TimeOfDay?> selectedTime = showTimePicker(
+                                context: context,
+                                initialTime: currentTime,
+                              );
+                              selectedTime.then((timeOfDay) {
+                                setState(() {
+                                  String? hour = timeOfDay?.hour.toString().padLeft(2, "0");
+                                  String? min = timeOfDay?.minute.toString().padLeft(2, "0");
+                                  startTime = '$hour : $min';
+                                });
+                              });
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: 30.0,
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 5.0
+                          ),
+                          child: Text(
+                            ' 부터 ',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              )
+                            ),
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color(0xffd9d9d9)
+                            ),
+                          ),
+                          onPressed: () {
+                            Future<TimeOfDay?> selectedTime = showTimePicker(
+                              context: context,
+                              initialTime: currentTime,
+                            );
+                            selectedTime.then((timeOfDay) {
+                              setState(() {
+                                String? hour = timeOfDay?.hour.toString().padLeft(2, "0");
+                                String? min = timeOfDay?.minute.toString().padLeft(2, "0");
+                                eHour = '$hour';
+                                eMin = '$min';
+                                endTime = '$eHour : $eMin';
+                              });
+                            });
+                          },
+                          child: Text(
+                            endTime,
+                            style: GoogleFonts.lato(
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 30.0,
+                          margin: const EdgeInsets.only(left: 5.0),
+                          child: Text(
+                            ' 까지 ',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 50.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 10.0),
+                          child: const Icon(
+                            Icons.share,
+                            color: Colors.black,
+                            size: 25.0,
+                          ),
+                        ),
+                        const Text(
+                          '공유',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 300.0,
+                      child: TextField(
+                        controller: sharingUserController,
+                        decoration: InputDecoration(
+                          hintText: '공유할 사용자의 이메일',
+                          hintStyle: GoogleFonts.lato(
+                            fontSize: 10.0,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -214,7 +365,8 @@ class AddTodoState extends State<AddTodo> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => navigator.pop(
-            Todo(task, false)
+          // {"selectedDay": selectedDate, "schedule": Schedule(title, startTime, endTime, sharingUser, notificationTime)}
+          Schedule(title, startTime, endTime, sharingUser, notificationTime)
         ),
         backgroundColor: Colors.black,
         label: const Icon(

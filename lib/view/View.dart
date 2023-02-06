@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:Scheduler/schedule/ModifyScheduleForm.dart';
-import 'package:Scheduler/schedule/AddSchedule.dart';
-import 'package:Scheduler/schedule/Schedule.dart';
-import 'package:Scheduler/todo/AddTodo.dart';
-import 'package:Scheduler/todo/Todo.dart';
-import 'package:Scheduler/todo/ModifyTodoForm.dart';
-import 'package:Scheduler/view/ShowUser.dart';
-import 'package:Scheduler/view/AppDrawer.dart';
+import 'package:Scheduler/schedule/modify_schedule.dart';
+import 'package:Scheduler/schedule/add_schedule.dart';
+import 'package:Scheduler/schedule/schedule.dart';
+import 'package:Scheduler/todo/add_todo.dart';
+import 'package:Scheduler/todo/todo.dart';
+import 'package:Scheduler/todo/modify_todo.dart';
+import 'package:Scheduler/view/show_user.dart';
+import 'package:Scheduler/view/app_drawer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class View extends StatefulWidget {
@@ -247,7 +247,6 @@ class ViewState extends State<View> {
                   )
                 );
                 int index = scheduleList[selectedDay]!.indexOf(s);
-                // print(scheduleList[selectedDay]![index].title);
 
                 if (modifySchedule.title == "null") {
                   setState(() {
